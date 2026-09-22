@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capacitación Interactiva: Resumen de Carga Crediticia</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              navy: '#002A54',
+              blue: '#005696',
+              lightBlue: '#E6F0FA',
+              orange: '#FF7800',
+              orangeHover: '#E06500',
+              success: '#00875A',
+              border: '#004B87'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .table-cell-custom {
+      border: 1px solid #7ea4c4;
+      min-height: 30px;
+      font-size: 13px;
+    }
+    .triangle-corner {
+      width: 0;
+      height: 0;
+      border-bottom: 70px solid #FF7800;
+      border-left: 70px solid transparent;
+    }
+    .cell-transition {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes pulseArrow {
+      0%, 100% { transform: translateX(0); opacity: 0.9; }
+      50% { transform: translateX(-8px); opacity: 1; }
+    }
+    .animate-arrow-left {
+      animation: pulseArrow 1.2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-orange-200">
+
+  <header class="bg-brand-navy text-white px-5 py-3 shadow-md border-b-4 border-brand-orange flex flex-wrap justify-between items-center gap-3">
+    <div class="flex items-center space-x-3">
+      <div class="bg-white/10 p-2 rounded-lg text-brand-orange">
+        <i class="fa-solid fa-calculator text-xl"></i>
+      </div>
+      <div>
+        <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+          Capacitación: <span class="text-orange-400 font-semibold">Resumen de Carga Crediticia</span>
+        </h1>
+        <p class="text-xs text-slate-300">Simulador de reemplazo de Saldo y Cuota de Crédito Efectivo</p>
+      </div>
+    </div>
+
+    <!-- Quick action tools -->
+    <div class="flex items-center gap-2 flex-wrap">
+      <button id="btnAutoPlay" class="px-3 py-1.5 text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition flex items-center gap-1.5 shadow-sm">
+        <i class="fa-solid fa-play"></i> <span id="autoPlayLabel">Reproducir Demo</span>
+      </button>
+      <button id="btnSpeechModal" class="px-3 py-1.5 text-xs font-semibold bg-white/15 hover:bg-white/25 text-white rounded-md transition flex items-center gap-1.5 shadow-sm">
+        <i class="fa-solid fa-bullhorn text-amber-300"></i> Guión de Capacitación
+      </button>
+      <button id="btnQuizMode" class="px-3 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition flex items-center gap-1.5 shadow-sm">
+        <i class="fa-solid fa-circle-question"></i> Quiz Rápido
+      </button>
+      <button id="btnFullScreen" class="px-3 py-1.5 text-xs font-medium bg-white/10 hover:bg-white/20 text-slate-200 rounded-md transition flex items-center gap-1.5">
+        <i class="fa-solid fa-expand"></i> Pantalla Completa
+      </button>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    
+    <!-- LEFT PANEL: Dynamic Trainer Script & Step Tracker -->
+    <section class="lg:col-span-4 bg-white rounded-xl shadow-lg border border-slate-200 p-5 flex flex-col justify-between h-full relative overflow-hidden">
+      <!-- Decorative top ribbon -->
+      <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-brand-orange via-blue-600 to-brand-navy"></div>
+
+      <div>
+        <!-- Step progress indicators -->
+        <div class="flex items-center justify-between mb-3 mt-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-blue flex items-center gap-1.5">
+            <i class="fa-solid fa-list-check"></i> Pasos de la Dinámica
+          </span>
+          <span id="stepCounter" class="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-100 text-brand-blue">
+            Paso 1 de 4
+          </span>
+        </div>
+
+        <div class="grid grid-cols-4 gap-1.5 mb-4">
+          <div id="stepTab1" class="h-2 rounded-full bg-brand-orange transition-all duration-300"></div>
+          <div id="stepTab2" class="h-2 rounded-full bg-slate-200 transition-all duration-300"></div>
+          <div id="stepTab3" class="h-2 rounded-full bg-slate-200 transition-all duration-300"></div>
+          <div id="stepTab4" class="h-2 rounded-full bg-slate-200 transition-all duration-300"></div>
+        </div>
+
+        <!-- Animated Dialog Card -->
+        <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-orange-200 rounded-xl p-4 shadow-sm mb-4 relative transition-all duration-300" id="speechContainer">
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center shrink-0 shadow-md font-bold text-lg" id="stepIcon">
+              👀
+            </div>
+            <div>
+              <h2 id="stepTitle" class="font-bold text-brand-navy text-sm md:text-base leading-snug">
+                ¡Ojo al dato, equipo!
+              </h2>
+              <p id="stepDescription" class="text-xs md:text-sm text-slate-700 mt-1 leading-relaxed">
+                Vamos a actualizar la fila de <strong>Crédito Efectivo</strong> con un doble reemplazo: <strong>Saldo</strong> y <strong>Cuota no BCP</strong>.
+              </p>
+            </div>
+          </div>
+
+          <!-- Highlight takeaway box -->
+          <div id="stepTip" class="mt-3 pt-3 border-t border-orange-200/80 text-xs text-brand-navy font-semibold flex items-center gap-2">
+            <i class="fa-solid fa-lightbulb text-amber-500 text-sm"></i>
+            <span>Revisa los valores originales antes del ajuste en la evaluación.</span>
+          </div>
+        </div>
+
+        <!-- Instructor Quick Speech Box -->
+        <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs text-slate-600 mb-4">
+          <div class="flex items-center justify-between font-semibold text-slate-800 mb-1">
+            <span class="flex items-center gap-1.5">
+              <i class="fa-regular fa-comment-dots text-brand-blue"></i> Speech coloquial del paso:
+            </span>
+            <button id="btnCopyQuickSpeech" class="text-[11px] text-brand-blue hover:text-brand-navy underline flex items-center gap-1">
+              <i class="fa-regular fa-copy"></i> Copiar
+            </button>
+          </div>
+          <p id="liveScriptText" class="italic text-slate-700 leading-relaxed">
+            "A ver equipo, miren bien la fila de Crédito Efectivo..."
+          </p>
+        </div>
+
+        <!-- Summary Comparison Badges -->
+        <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+          <div id="cardSaldoBox" class="p-2.5 rounded-lg border bg-slate-50 border-slate-200 transition-all">
+            <span class="block text-[10px] uppercase font-bold text-slate-500 mb-1">1. Saldo Capital</span>
+            <div class="flex items-center justify-between font-mono">
+              <span id="badgeOldSaldo" class="text-slate-600 line-through">45,972</span>
+              <i class="fa-solid fa-arrow-right text-[10px] text-slate-400"></i>
+              <span id="badgeNewSaldo" class="font-bold text-brand-navy">4,000.00</span>
+            </div>
+          </div>
+          <div id="cardCuotaBox" class="p-2.5 rounded-lg border bg-slate-50 border-slate-200 transition-all">
+            <span class="block text-[10px] uppercase font-bold text-slate-500 mb-1">2. Cuota no BCP</span>
+            <div class="flex items-center justify-between font-mono">
+              <span id="badgeOldCuota" class="text-slate-600 line-through">893.00</span>
+              <i class="fa-solid fa-arrow-right text-[10px] text-slate-400"></i>
+              <span id="badgeNewCuota" class="font-bold text-brand-navy">77.70</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls: Navigation buttons -->
+      <div class="pt-3 border-t border-slate-100 flex flex-col gap-2">
+        <div class="flex gap-2">
+          <button id="btnPrevStep" class="flex-1 py-2.5 px-3 rounded-lg border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold text-xs transition flex items-center justify-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+            <i class="fa-solid fa-arrow-left"></i> Anterior
+          </button>
+          <button id="btnNextStep" class="flex-2 w-2/3 py-2.5 px-4 rounded-lg bg-brand-orange hover:bg-brand-orangeHover text-white font-bold text-xs tracking-wide shadow-md transition flex items-center justify-center gap-2">
+            <span>Siguiente Paso</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <button id="btnResetSimulation" class="w-full py-1.5 text-xs font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-arrow-rotate-left"></i> Reiniciar demostración
+        </button>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: Authentic Simulator Table -->
+    <section class="lg:col-span-8 bg-white rounded-xl shadow-lg border border-slate-200 p-5 relative overflow-hidden flex flex-col justify-between">
+      
+      <!-- Top Simulator Branding -->
+      <div>
+        <div class="flex flex-wrap items-center justify-between border-b pb-3 mb-4 gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Simulador de Riesgos</span>
+            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
+              <i class="fa-solid fa-circle text-[8px] animate-ping"></i> Evaluación Activa
+            </span>
+          </div>
+          <div class="text-xs text-slate-500 flex items-center gap-3">
+            <span>Tasa Campaña: <strong class="text-slate-700 font-mono">0.00%</strong></span>
+            <span class="font-mono text-slate-400">EXP-8842-BCP</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 mb-3">
+          <h2 class="text-base md:text-lg font-bold text-brand-navy">
+            Resumen de Carga Crediticia
+          </h2>
+          <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 text-xs shadow-sm">
+            <i class="fa-solid fa-check"></i>
+          </span>
+        </div>
+
+        <!-- The Responsive Mock Sheet Table Container -->
+        <div class="overflow-x-auto pb-2">
+          <div class="min-w-[640px]">
+            <!-- Table Header -->
+            <div class="grid grid-cols-12 gap-1 mb-1 text-center font-bold text-xs text-brand-navy">
+              <div class="col-span-3 text-left pl-2 flex items-center font-semibold text-slate-700">Concepto</div>
+              <div class="col-span-2 p-2 bg-brand-lightBlue border border-brand-border rounded-t-md flex items-center justify-center">
+                Deuda cuota BCP
+              </div>
+              <div class="col-span-2 p-2 bg-brand-lightBlue border border-brand-border rounded-t-md flex items-center justify-center">
+                Deuda cuota no BCP
+              </div>
+              <div class="col-span-2 p-2 bg-brand-lightBlue border border-brand-border rounded-t-md flex items-center justify-center">
+                Saldo
+              </div>
+              <div class="col-span-2 p-2 bg-brand-lightBlue border border-brand-border rounded-t-md flex items-center justify-center">
+                Saldo Actualizado
+              </div>
+              <div class="col-span-1 p-2 text-[11px] leading-tight flex items-center justify-center text-brand-navy">
+                Cuota Actualizada
+              </div>
+            </div>
+
+            <!-- Rows Container -->
+            <div class="space-y-1 text-xs">
+              
+              <!-- Row 1: Crédito Hipotecario -->
+              <div class="grid grid-cols-12 gap-1 items-center">
+                <div class="col-span-3 pl-2 text-brand-blue font-medium">Crédito Hipotecario</div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
+              </div>
+
+              <!-- Row 2: CRÉDITO EFECTIVO (PRIMARY FOCUS ROW) -->
+              <div id="rowEfectivo" class="grid grid-cols-12 gap-1 items-center bg-blue-50/60 p-1.5 rounded-lg border-2 border-transparent transition-all duration-300 relative">
+                
+                <!-- Helper indicator pointer -->
+                <div id="targetPointer" class="hidden absolute -left-3 top-1/2 -translate-y-1/2 bg-brand-orange text-white text-xs px-2 py-0.5 rounded shadow-lg font-bold items-center gap-1 z-20 animate-bounce">
+                  <i class="fa-solid fa-arrow-right"></i> <span id="pointerText">Actualizar</span>
+                </div>
+
+                <div class="col-span-3 pl-1 text-brand-blue font-bold flex items-center gap-1">
+                  <span>Crédito Efectivo</span>
+                </div>
+
+                <!-- Empty BCP quota -->
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+
+                <!-- TARGET CELL 1: Deuda cuota no BCP (893.00 -> 77.70) -->
+                <div id="cellNoBcp" class="col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono font-medium relative cell-transition">
+                  <span class="text-slate-400 text-[10px]">S/</span>
+                  <div class="relative flex items-center justify-end w-full pl-1">
+                    <span id="valNoBcpText" class="text-slate-800 font-bold transition-all duration-300">893.00</span>
+                    <div id="crossLineCuota" class="hidden absolute top-1/2 left-0 right-0 h-[2.5px] bg-red-600 rounded transform -rotate-12 transition-all"></div>
+                  </div>
+                  <span id="badgeCuotaNew" class="hidden absolute -top-2.5 right-1 bg-emerald-600 text-white font-sans text-[9px] font-bold px-1.5 py-0.2 rounded shadow">
+                    NUEVO
+                  </span>
+                </div>
+
+                <!-- TARGET CELL 2: Saldo (45,972.00 -> 4,000.00) -->
+                <div id="cellSaldo" class="col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono text-slate-700 relative cell-transition">
+                  <span class="text-slate-400 text-[10px]">S/</span>
+                  <div class="relative flex items-center justify-end w-full pl-1">
+                    <span id="valSaldoText" class="font-bold text-slate-800 transition-all duration-300">45,972.00</span>
+                    <div id="crossLineSaldo" class="hidden absolute top-1/2 left-0 right-0 h-[2.5px] bg-red-600 rounded transform -rotate-12 transition-all"></div>
+                  </div>
+                  <span id="badgeSaldoNew" class="hidden absolute -top-2.5 right-1 bg-emerald-600 text-white font-sans text-[9px] font-bold px-1.5 py-0.2 rounded shadow">
+                    NUEVO
+                  </span>
+                </div>
+
+                <!-- SOURCE CELL 1: Saldo Actualizado (4,000.00) -->
+                <div id="cellSaldoAct" class="col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono font-semibold text-brand-blue relative cell-transition">
+                  <span class="text-slate-400 text-[10px]">S/</span>
+                  <span id="valSaldoAct">4,000.00</span>
+                  
+                  <!-- Arrow transferring to Saldo column -->
+                  <div id="arrowSaldoTransfer" class="hidden absolute -left-4 top-1/2 -translate-y-1/2 text-emerald-600 text-xs font-bold animate-arrow-left z-20">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                  </div>
+                </div>
+
+                <!-- SOURCE CELL 2: Cuota Actualizada (77.70) -->
+                <div id="cellCuotaAct" class="col-span-1 text-right pr-1 font-mono font-bold text-slate-800 flex items-center justify-end gap-1 relative cell-transition">
+                  <span class="text-[10px] text-slate-400">S/</span>
+                  <span id="valCuotaAct" class="transition-all duration-300">77.70</span>
+                  
+                  <!-- Arrow transferring towards No BCP quota -->
+                  <div id="arrowCuotaTransfer" class="hidden absolute -left-2 top-1/2 -translate-y-1/2 text-emerald-600 text-xs font-bold animate-arrow-left z-20">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Row 3: Crédito Vehicular -->
+              <div class="grid grid-cols-12 gap-1 items-center">
+                <div class="col-span-3 pl-2 text-brand-blue font-medium">Crédito Vehicular</div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
+              </div>
+
+              <!-- Row 4: Pyme -->
+              <div class="grid grid-cols-12 gap-1 items-center">
+                <div class="col-span-3 pl-2 text-brand-blue font-medium">Pyme</div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
+              </div>
+
+              <!-- Row 5: Comercial (159.00 en BCP) -->
+              <div class="grid grid-cols-12 gap-1 items-center">
+                <div class="col-span-3 pl-2 text-brand-blue font-medium">Comercial</div>
+                <div class="col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono">
+                  <span class="text-slate-400 text-[10px]">S/</span>
+                  <span class="text-slate-700">159.00</span>
+                </div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
+              </div>
+
+              <!-- Row 6: Deuda Indirecta -->
+              <div class="grid grid-cols-12 gap-1 items-center">
+                <div class="col-span-3 pl-2 text-brand-blue font-medium">Deuda Indirecta</div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
+              </div>
+
+              <!-- Row 7: Línea utilizada -->
+              <div class="grid grid-cols-12 gap-1 items-center">
+                <div class="col-span-3 pl-2 text-brand-blue font-medium">Línea utilizada de tarjeta de Crédito</div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
+              </div>
+
+              <!-- Row 8: Línea no utilizada -->
+              <div class="grid grid-cols-12 gap-1 items-center">
+                <div class="col-span-3 pl-2 text-brand-blue font-medium">Línea no utilizada</div>
+                <div class="col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono">
+                  <span class="text-slate-400 text-[10px]">S/</span>
+                  <span class="text-slate-400">-</span>
+                </div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-2 table-cell-custom bg-white"></div>
+                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
+              </div>
+
+            </div>
+
+            <!-- Bottom Risk Indicators (Endeudamiento & CEM) -->
+            <div class="mt-4 pt-3 border-t border-slate-200 grid grid-cols-12 gap-2 text-xs">
+              <div class="col-span-7 space-y-1.5">
+                <div class="flex items-center justify-between font-bold text-brand-navy">
+                  <span>% Endeudamiento</span>
+                  <span class="text-brand-blue font-mono text-sm">34%</span>
+                </div>
+                <div class="flex items-center justify-between font-bold text-brand-navy">
+                  <span>CEM</span>
+                  <span id="cemDisplay" class="text-emerald-700 font-mono text-sm font-extrabold transition-all">S/ 2,848.09</span>
+                </div>
+                <div class="flex items-center justify-between font-bold text-brand-navy">
+                  <span>Dictamen</span>
+                  <button class="text-brand-blue hover:underline font-bold text-xs flex items-center gap-1">
+                    <span>Continuar</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div id="ruleBox" class="col-span-5 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-[11px] text-slate-600 flex flex-col justify-center transition-all">
+                <span class="font-bold text-slate-800 flex items-center gap-1 mb-0.5">
+                  <i class="fa-solid fa-arrows-rotate text-blue-500"></i> Resumen de Sustitución:
+                </span>
+                <span id="ruleText">
+                  1. Saldo: <strong>S/ 45,972.00 ➔ S/ 4,000.00</strong><br>
+                  2. Cuota: <strong>S/ 893.00 ➔ S/ 77.70</strong>
+                </span>
+              </div>
+            </div>
+
+            <!-- Footer notes -->
+            <div class="mt-3 text-[10px] text-slate-500 italic flex items-center justify-between">
+              <div>
+                <span class="underline font-semibold">Nota:</span> Las cuotas son referenciales, sujetas a calificación y a la fecha de desembolso del crédito.
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom orange corner triangle design as in original screen -->
+      <div class="absolute bottom-0 right-0 triangle-corner pointer-events-none"></div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: Full Training Script for Presentation -->
+  <div id="speechModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6 relative border border-slate-200">
+      <button id="btnCloseModal" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-orange-100 text-brand-orange flex items-center justify-center text-xl font-bold">
+          <i class="fa-solid fa-chalkboard-teacher"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-slate-800">Guión de Capacitación para el Relator</h3>
+          <p class="text-xs text-slate-500">Texto coloquial listo para tu presentación o notas de orador</p>
+        </div>
+      </div>
+
+      <div id="fullSpeechText" class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs md:text-sm text-slate-700 space-y-3 font-sans leading-relaxed max-h-[60vh] overflow-y-auto">
+        <p class="font-bold text-brand-navy text-sm">
+          🛑 ¡Ojo al dato, equipo! Vamos a hacer un cambio importante para nuestro cliente.
+        </p>
+        <p>
+          A ver, miren esta fila de <strong>"Crédito Efectivo"</strong> que les estoy mostrando en pantalla. Tiene dos datos antiguos que debemos actualizar por completo:
+        </p>
+        
+        <div class="space-y-2 my-2">
+          <div class="bg-amber-50 p-2.5 rounded-lg border border-amber-200 text-xs">
+            <strong>1. El Saldo anterior:</strong> ¿Ven esos <strong>S/ 45,972.00</strong>? ¡Ese monto ya no va! En su lugar colocamos el nuevo <strong>Saldo Actualizado de S/ 4,000.00</strong>.
+          </div>
+          <div class="bg-amber-50 p-2.5 rounded-lg border border-amber-200 text-xs">
+            <strong>2. La Deuda cuota no BCP:</strong> ¿Ven los <strong>S/ 893.00</strong>? ¡También desaparecen de nuestro mapa! En su lugar colocamos exactamente la cuota que calculó el sistema: <strong>S/ 77.70</strong>.
+          </div>
+        </div>
+
+        <div class="bg-blue-50 p-3 rounded-lg border border-blue-200 text-brand-navy space-y-1">
+          <div class="font-bold">Resumiendo la jugada:</div>
+          <ul class="list-disc list-inside pl-1 space-y-1 text-xs">
+            <li>El saldo viejo de <strong>S/ 45,972.00</strong> se borra y entra <strong>S/ 4,000.00</strong>.</li>
+            <li>La cuota vieja no BCP de <strong>S/ 893.00</strong> se borra y entra <strong>S/ 77.70</strong>.</li>
+            <li>Con este doble ajuste, el CEM y endeudamiento quedan cuadrados con la información 100% real del cliente.</li>
+          </ul>
+        </div>
+
+        <p class="font-semibold text-emerald-700">
+          ¡Así de fácil y transparente! Mantenemos todo en orden sin inflar la carga del cliente.
+        </p>
+        <p class="italic text-slate-500 text-xs">
+          ¿Alguna duda con este doble movimiento? ¡Vamos a practicarlo! 💪
+        </p>
+      </div>
+
+      <div class="mt-5 flex justify-end gap-2">
+        <button id="btnCopyFullModal" class="px-4 py-2 bg-brand-blue hover:bg-brand-navy text-white text-xs font-semibold rounded-lg shadow transition flex items-center gap-1.5">
+          <i class="fa-regular fa-copy"></i> Copiar Guión Completo
+        </button>
+        <button id="btnCloseModalBtn" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold rounded-lg transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Quick Interactive Quiz -->
+  <div id="quizModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 relative border border-slate-200">
+      <button id="btnCloseQuiz" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="text-center mb-4">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 text-2xl mb-2">
+          🎯
+        </div>
+        <h3 class="text-base font-bold text-slate-800">Pregunta de Capacitación</h3>
+        <p class="text-xs text-slate-500">¿Qué reemplazos se realizan en el Crédito Efectivo?</p>
+      </div>
+
+      <div class="space-y-2 mb-4">
+        <button onclick="handleQuizAnswer('wrong1')" class="quiz-btn w-full py-2.5 px-3 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-xs font-semibold text-slate-700 text-left transition flex justify-between items-center">
+          <span>A) Solo se cambia la cuota de 893 por 77.70, el saldo de 45,972 queda igual.</span>
+        </button>
+        <button onclick="handleQuizAnswer('correct')" class="quiz-btn w-full py-2.5 px-3 rounded-lg border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50 text-xs font-semibold text-slate-700 text-left transition flex justify-between items-center">
+          <span>B) El saldo 45,972 pasa a 4,000 y la cuota 893 pasa a 77.70.</span>
+        </button>
+        <button onclick="handleQuizAnswer('wrong2')" class="quiz-btn w-full py-2.5 px-3 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-xs font-semibold text-slate-700 text-left transition flex justify-between items-center">
+          <span>C) Se suman ambos saldos (45,972 + 4,000).</span>
+        </button>
+      </div>
+
+      <div id="quizFeedback" class="hidden p-3 rounded-lg text-xs font-semibold text-center mb-2"></div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-brand-navy text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow-xl border border-white/20 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-2 z-50">
+    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+    <span id="toastMsg">Mensaje copiado correctamente</span>
+  </div>
+
+  <script>
+    // Step configuration:
+    // Step 1: Detect/Highlight both old fields (893 cuota & 45,972 saldo)
+    // Step 2: Replace Saldo (45,972 -> 4,000)
+    // Step 3: Replace Cuota (893 -> 77.70)
+    // Step 4: Final consolidated state
+    let currentStep = 1;
+    const maxSteps = 4;
+    let autoPlayTimer = null;
+
+    // UI Elements
+    const btnNextStep = document.getElementById('btnNextStep');
+    const btnPrevStep = document.getElementById('btnPrevStep');
+    const btnResetSimulation = document.getElementById('btnResetSimulation');
+    const btnAutoPlay = document.getElementById('btnAutoPlay');
+    const autoPlayLabel = document.getElementById('autoPlayLabel');
+    
+    const stepCounter = document.getElementById('stepCounter');
+    const stepTab1 = document.getElementById('stepTab1');
+    const stepTab2 = document.getElementById('stepTab2');
+    const stepTab3 = document.getElementById('stepTab3');
+    const stepTab4 = document.getElementById('stepTab4');
+    
+    const stepIcon = document.getElementById('stepIcon');
+    const stepTitle = document.getElementById('stepTitle');
+    const stepDescription = document.getElementById('stepDescription');
+    const stepTip = document.getElementById('stepTip');
+    const liveScriptText = document.getElementById('liveScriptText');
+
+    // Simulator Cells
+    const cellNoBcp = document.getElementById('cellNoBcp');
+    const valNoBcpText = document.getElementById('valNoBcpText');
+    const crossLineCuota = document.getElementById('crossLineCuota');
+    const badgeCuotaNew = document.getElementById('badgeCuotaNew');
+
+    const cellSaldo = document.getElementById('cellSaldo');
+    const valSaldoText = document.getElementById('valSaldoText');
+    const crossLineSaldo = document.getElementById('crossLineSaldo');
+    const badgeSaldoNew = document.getElementById('badgeSaldoNew');
+
+    const cellSaldoAct = document.getElementById('cellSaldoAct');
+    const cellCuotaAct = document.getElementById('cellCuotaAct');
+    const arrowSaldoTransfer = document.getElementById('arrowSaldoTransfer');
+    const arrowCuotaTransfer = document.getElementById('arrowCuotaTransfer');
+    const targetPointer = document.getElementById('targetPointer');
+    const pointerText = document.getElementById('pointerText');
+
+    const badgeOldSaldo = document.getElementById('badgeOldSaldo');
+    const badgeNewSaldo = document.getElementById('badgeNewSaldo');
+    const badgeOldCuota = document.getElementById('badgeOldCuota');
+    const badgeNewCuota = document.getElementById('badgeNewCuota');
+    const cardSaldoBox = document.getElementById('cardSaldoBox');
+    const cardCuotaBox = document.getElementById('cardCuotaBox');
+
+    // Step configuration data
+    const stepsConfig = {
+      1: {
+        title: "¡Ojo al dato, equipo! Revisemos la fila",
+        icon: "👀",
+        desc: 'Miren la fila de <strong class="text-brand-blue">"Crédito Efectivo"</strong>. Tenemos un <strong>Saldo de S/ 45,972.00</strong> y una <strong>Cuota no BCP de S/ 893.00</strong>. ¡Ambos números antiguos van a cambiar!',
+        tip: "Identifica los dos valores que están inflando la carga anterior del cliente.",
+        script: '"A ver equipo, observen Crédito Efectivo: tenemos 45,972 de saldo y 893 de cuota. ¡Olvídense de ambos números, vamos a actualizarlos!"',
+        btnText: "Paso 2: Reemplazar Saldo (45,972 ➔ 4,000)"
+      },
+      2: {
+        title: "Paso 1: Reemplazo del Saldo Capital",
+        icon: "🔄",
+        desc: 'El saldo anterior de <strong class="text-red-600 line-through">S/ 45,972.00</strong> desaparece. En su lugar colocamos el <strong class="text-emerald-700 font-bold">Saldo Actualizado de S/ 4,000.00</strong>.',
+        tip: "El saldo real a consolidar es únicamente de 4,000 soles.",
+        script: '"Primer movimiento clave: Esos 45,972 soles de saldo se van. Colocamos en su reemplazo el Saldo Actualizado de 4,000 soles."',
+        btnText: "Paso 3: Reemplazar Cuota (893 ➔ 77.70)"
+      },
+      3: {
+        title: "Paso 2: Reemplazo de la Cuota no BCP",
+        icon: "✨",
+        desc: 'La cuota anterior no BCP de <strong class="text-red-600 line-through">S/ 893.00</strong> también desaparece. En su lugar colocamos la <strong class="text-emerald-700 font-bold">Cuota Actualizada de S/ 77.70</strong>.',
+        tip: "La cuota del cliente baja drásticamente de 893.00 a solo 77.70 soles.",
+        script: '"Segundo movimiento: La cuota no BCP de 893 soles desaparece y entra la cuota actualizada de 77.70 soles calculada por el sistema."',
+        btnText: "Paso 4: Ver Resultado Consolidado"
+      },
+      4: {
+        title: "¡Doble Reemplazo Completado con Éxito!",
+        icon: "✅",
+        desc: '¡Excelente! Tenemos el <strong class="text-emerald-700">Saldo en S/ 4,000.00</strong> y la <strong class="text-emerald-700">Cuota en S/ 77.70</strong>. El cliente queda al día con su capacidad real.',
+        tip: "Carga crediticia optimizada y lista para continuar con el dictamen.",
+        script: '"¡Listo equipo! Saldo en 4,000 y cuota en 77.70. Cero duplicidades y el cliente con su información 100% al día. ¡A practicarlo!"',
+        btnText: "Reiniciar Simulación"
+      }
+    };
+
+    function updateStepView() {
+      stepCounter.textContent = `Paso ${currentStep} de ${maxSteps}`;
+      const data = stepsConfig[currentStep];
+
+      stepTitle.textContent = data.title;
+      stepIcon.textContent = data.icon;
+      stepDescription.innerHTML = data.desc;
+      stepTip.innerHTML = `<i class="fa-solid fa-lightbulb text-amber-500 text-sm"></i> <span>${data.tip}</span>`;
+      liveScriptText.textContent = data.script;
+      
+      btnNextStep.querySelector('span').textContent = data.btnText;
+      btnPrevStep.disabled = (currentStep === 1);
+
+      // Tab pills
+      stepTab1.className = `h-2 rounded-full transition-all duration-300 ${currentStep >= 1 ? 'bg-brand-orange' : 'bg-slate-200'}`;
+      stepTab2.className = `h-2 rounded-full transition-all duration-300 ${currentStep >= 2 ? 'bg-brand-orange' : 'bg-slate-200'}`;
+      stepTab3.className = `h-2 rounded-full transition-all duration-300 ${currentStep >= 3 ? 'bg-brand-orange' : 'bg-slate-200'}`;
+      stepTab4.className = `h-2 rounded-full transition-all duration-300 ${currentStep === 4 ? 'bg-emerald-500' : 'bg-slate-200'}`;
+
+      // Reset base cell visuals
+      cellSaldo.className = "col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono text-slate-700 relative cell-transition";
+      cellNoBcp.className = "col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono font-medium relative cell-transition";
+      cellSaldoAct.className = "col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono font-semibold text-brand-blue relative cell-transition";
+      cellCuotaAct.className = "col-span-1 text-right pr-1 font-mono font-bold text-slate-800 flex items-center justify-end gap-1 relative cell-transition";
+
+      crossLineSaldo.classList.add('hidden');
+      crossLineCuota.classList.add('hidden');
+      badgeSaldoNew.classList.add('hidden');
+      badgeCuotaNew.classList.add('hidden');
+      arrowSaldoTransfer.classList.add('hidden');
+      arrowCuotaTransfer.classList.add('hidden');
+      targetPointer.classList.add('hidden');
+      targetPointer.classList.remove('flex');
+
+      // Update comparison cards on left panel
+      cardSaldoBox.className = "p-2.5 rounded-lg border bg-slate-50 border-slate-200 transition-all";
+      cardCuotaBox.className = "p-2.5 rounded-lg border bg-slate-50 border-slate-200 transition-all";
+
+      if (currentStep === 1) {
+        // Step 1: Initial state, highlights on old values
+        valSaldoText.textContent = "45,972.00";
+        valSaldoText.className = "font-bold text-slate-800";
+        valNoBcpText.textContent = "893.00";
+        valNoBcpText.className = "font-bold text-slate-800";
+
+        cellSaldo.classList.add('ring-2', 'ring-amber-400', 'bg-amber-50');
+        cellNoBcp.classList.add('ring-2', 'ring-amber-400', 'bg-amber-50');
+        targetPointer.classList.remove('hidden');
+        targetPointer.classList.add('flex');
+        pointerText.textContent = "Revisar";
+      } 
+      else if (currentStep === 2) {
+        // Step 2: Saldo Replaced (45,972 -> 4,000)
+        valSaldoText.textContent = "4,000.00";
+        valSaldoText.className = "font-bold text-emerald-700";
+        badgeSaldoNew.classList.remove('hidden');
+        cellSaldo.classList.add('ring-4', 'ring-emerald-500', 'bg-emerald-50');
+        
+        // Still keep old Cuota for contrast
+        valNoBcpText.textContent = "893.00";
+        valNoBcpText.className = "font-bold text-red-600";
+        crossLineCuota.classList.remove('hidden');
+        cellNoBcp.classList.add('ring-2', 'ring-red-300', 'bg-red-50');
+
+        cellSaldoAct.classList.add('ring-2', 'ring-emerald-400', 'bg-emerald-50');
+        arrowSaldoTransfer.classList.remove('hidden');
+
+        cardSaldoBox.className = "p-2.5 rounded-lg border bg-emerald-50 border-emerald-300 shadow-sm";
+      }
+      else if (currentStep === 3) {
+        // Step 3: Cuota Replaced (893 -> 77.70)
+        valSaldoText.textContent = "4,000.00";
+        valSaldoText.className = "font-bold text-emerald-700";
+        badgeSaldoNew.classList.remove('hidden');
+        cellSaldo.classList.add('bg-emerald-50/70');
+
+        valNoBcpText.textContent = "77.70";
+        valNoBcpText.className = "font-bold text-emerald-700";
+        badgeCuotaNew.classList.remove('hidden');
+        cellNoBcp.classList.add('ring-4', 'ring-emerald-500', 'bg-emerald-50');
+
+        cellCuotaAct.classList.add('text-emerald-700', 'scale-110');
+        arrowCuotaTransfer.classList.remove('hidden');
+
+        cardSaldoBox.className = "p-2.5 rounded-lg border bg-emerald-50 border-emerald-300";
+        cardCuotaBox.className = "p-2.5 rounded-lg border bg-emerald-50 border-emerald-300 shadow-sm";
+      }
+      else if (currentStep === 4) {
+        // Step 4: Final Consolidated Screen
+        valSaldoText.textContent = "4,000.00";
+        valSaldoText.className = "font-extrabold text-emerald-700";
+        badgeSaldoNew.classList.remove('hidden');
+        cellSaldo.classList.add('bg-emerald-50', 'border-emerald-500');
+
+        valNoBcpText.textContent = "77.70";
+        valNoBcpText.className = "font-extrabold text-emerald-700";
+        badgeCuotaNew.classList.remove('hidden');
+        cellNoBcp.classList.add('bg-emerald-50', 'border-emerald-500');
+
+        cardSaldoBox.className = "p-2.5 rounded-lg border bg-emerald-100/70 border-emerald-400";
+        cardCuotaBox.className = "p-2.5 rounded-lg border bg-emerald-100/70 border-emerald-400";
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 2500);
+    }
+
+    function copyToClipboard(text) {
+      const tempInput = document.createElement("textarea");
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+      showToast("Texto copiado al portapapeles correctamente");
+    }
+
+    // Step button listeners
+    btnNextStep.addEventListener('click', () => {
+      if (currentStep < maxSteps) {
+        currentStep++;
+      } else {
+        currentStep = 1;
+      }
+      updateStepView();
+    });
+
+    btnPrevStep.addEventListener('click', () => {
+      if (currentStep > 1) {
+        currentStep--;
+        updateStepView();
+      }
+    });
+
+    btnResetSimulation.addEventListener('click', () => {
+      stopAutoPlay();
+      currentStep = 1;
+      updateStepView();
+      showToast("Demostración reiniciada");
+    });
+
+    // Auto Play Demo feature
+    function stopAutoPlay() {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+        autoPlayLabel.textContent = "Reproducir Demo";
+        btnAutoPlay.classList.replace('bg-rose-600', 'bg-indigo-600');
+        btnAutoPlay.classList.replace('hover:bg-rose-700', 'hover:bg-indigo-700');
+      }
+    }
+
+    btnAutoPlay.addEventListener('click', () => {
+      if (autoPlayTimer) {
+        stopAutoPlay();
+      } else {
+        autoPlayLabel.textContent = "Detener Demo";
+        btnAutoPlay.classList.replace('bg-indigo-600', 'bg-rose-600');
+        btnAutoPlay.classList.replace('hover:bg-indigo-700', 'hover:bg-rose-700');
+        
+        autoPlayTimer = setInterval(() => {
+          if (currentStep < maxSteps) {
+            currentStep++;
+          } else {
+            currentStep = 1;
+          }
+          updateStepView();
+        }, 3200);
+      }
+    });
+
+    // Modal Events
+    const speechModal = document.getElementById('speechModal');
+    const btnSpeechModal = document.getElementById('btnSpeechModal');
+    const btnCloseModal = document.getElementById('btnCloseModal');
+    const btnCloseModalBtn = document.getElementById('btnCloseModalBtn');
+    const btnCopyFullModal = document.getElementById('btnCopyFullModal');
+    const btnCopyQuickSpeech = document.getElementById('btnCopyQuickSpeech');
+
+    btnSpeechModal.addEventListener('click', () => speechModal.classList.remove('hidden'));
+    btnCloseModal.addEventListener('click', () => speechModal.classList.add('hidden'));
+    btnCloseModalBtn.addEventListener('click', () => speechModal.classList.add('hidden'));
+
+    btnCopyQuickSpeech.addEventListener('click', () => {
+      copyToClipboard(liveScriptText.innerText);
+    });
+
+    btnCopyFullModal.addEventListener('click', () => {
+      const fullSpeech = `🛑 ¡Ojo al dato, equipo! Vamos a hacer un cambio importante para nuestro cliente.
+
+A ver, miren esta fila de "Crédito Efectivo" que les estoy mostrando en pantalla. Tiene dos datos antiguos que debemos actualizar por completo:
+
+1. El Saldo anterior: ¿Ven esos S/ 45,972.00? ¡Ese monto ya no va! En su lugar colocamos el nuevo Saldo Actualizado de S/ 4,000.00.
+2. La Deuda cuota no BCP: ¿Ven los S/ 893.00? ¡También desaparecen de nuestro mapa! En su lugar colocamos exactamente la cuota que calculó el sistema: S/ 77.70.
+
+Resumiendo la jugada:
+- El saldo viejo de S/ 45,972.00 se borra y entra S/ 4,000.00.
+- La cuota vieja no BCP de S/ 893.00 se borra y entra S/ 77.70.
+- Con este doble ajuste, el CEM y endeudamiento quedan cuadrados con la información 100% real del cliente.
+
+¡Así de fácil y transparente! Mantenemos todo en orden sin inflar la carga del cliente.
+¿Alguna duda con este doble movimiento? ¡Vamos a practicarlo! 💪`;
+      copyToClipboard(fullSpeech);
+    });
+
+    // Quiz logic
+    const quizModal = document.getElementById('quizModal');
+    const btnQuizMode = document.getElementById('btnQuizMode');
+    const btnCloseQuiz = document.getElementById('btnCloseQuiz');
+
+    btnQuizMode.addEventListener('click', () => {
+      const quizFeedback = document.getElementById('quizFeedback');
+      quizFeedback.classList.add('hidden');
+      quizModal.classList.remove('hidden');
+    });
+
+    btnCloseQuiz.addEventListener('click', () => quizModal.classList.add('hidden'));
+
+    window.handleQuizAnswer = function(option) {
+      const feedback = document.getElementById('quizFeedback');
+      feedback.classList.remove('hidden');
+
+      if (option === 'correct') {
+        feedback.className = "p-3 rounded-lg text-xs font-bold text-center bg-emerald-100 text-emerald-800 border border-emerald-300";
+        feedback.innerHTML = "🎉 ¡Correcto! Se realizan ambos cambios: Saldo a S/ 4,000 y Cuota no BCP a S/ 77.70.";
+        setTimeout(() => {
+          quizModal.classList.add('hidden');
+          currentStep = 4;
+          updateStepView();
+        }, 1800);
+      } else {
+        feedback.className = "p-3 rounded-lg text-xs font-bold text-center bg-red-100 text-red-700 border border-red-300";
+        feedback.innerHTML = "❌ Recuerda que son DOS reemplazos indispensables: Saldo (45,972 ➔ 4,000) y Cuota (893 ➔ 77.70).";
+      }
+    };
+
+    // Full screen toggle
+    const btnFullScreen = document.getElementById('btnFullScreen');
+    btnFullScreen.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {
+          showToast("Pantalla completa no disponible en este entorno");
+        });
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    });
+
+    // Initialize display
+    updateStepView();
+  </script>
+</body>
+</html>
