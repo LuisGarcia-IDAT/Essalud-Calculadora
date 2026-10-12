@@ -1,886 +1,1587 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Capacitación Interactiva: Resumen de Carga Crediticia</title>
-  <!-- Tailwind CSS CDN -->
+  <title>Calculadora Convenio ESSALUD | Camargo Group</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts: Inter & JetBrains Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-  
   <script>
     tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            brand: {
-              navy: '#002A54',
-              blue: '#005696',
-              lightBlue: '#E6F0FA',
-              orange: '#FF7800',
-              orangeHover: '#E06500',
-              success: '#00875A',
-              border: '#004B87'
-            }
-          }
-        }
-      }
+      darkMode: 'class',
     }
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
-    .table-cell-custom {
-      border: 1px solid #7ea4c4;
-      min-height: 30px;
+    :root {
+      --bcp-blue: #002A8F;
+      --bcp-blue-dark: #001B5E;
+      --bcp-orange: #FF7800;
+      --bcp-orange-hover: #E66A00;
+      --bcp-bg: #F4F7FC;
+      --essalud-blue: #00609C;
+    }
+
+    body {
+      background-color: var(--bcp-bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Estilos Dark Mode Avanzados */
+    html.dark body { background-color: #0f172a; color: #f1f5f9; }
+    html.dark .bg-white { background-color: #1e293b !important; }
+    html.dark .bg-slate-50 { background-color: #0f172a !important; }
+    html.dark .border-slate-200, html.dark .border-slate-100 { border-color: #334155 !important; }
+    html.dark .text-slate-800, html.dark .text-slate-700 { color: #f8fafc !important; }
+    html.dark .text-slate-600, html.dark .text-slate-500 { color: #cbd5e1 !important; }
+    html.dark .text-slate-400 { color: #94a3b8 !important; }
+    html.dark .text-[#002A8F] { color: #60a5fa !important; }
+    html.dark .text-blue-900 { color: #93c5fd !important; }
+    html.dark .text-blue-700 { color: #60a5fa !important; }
+    html.dark .input-cell { background-color: #0f172a !important; color: #f8fafc !important; border-color: #475569 !important; }
+    html.dark .input-cell:focus { border-color: #38bdf8 !important; box-shadow: 0 0 0 2px rgba(56,189,248,0.2) !important; }
+    html.dark .field-label { color: #94a3b8 !important; }
+    html.dark .bg-blue-50\/70, html.dark .bg-blue-50\/50, html.dark .bg-blue-50\/30, html.dark .bg-blue-50\/20, html.dark .bg-blue-50 { background-color: rgba(30, 58, 138, 0.25) !important; border-color: rgba(30, 58, 138, 0.5) !important; }
+    html.dark .bg-orange-50\/70 { background-color: rgba(154, 52, 18, 0.25) !important; border-color: rgba(154, 52, 18, 0.5) !important;}
+    html.dark .bg-amber-50\/40 { background-color: rgba(180, 83, 9, 0.2) !important; border-color: rgba(180, 83, 9, 0.4) !important;}
+    html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-2xl { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5) !important; }
+    html.dark .text-blue-800 { color: #93c5fd !important; }
+    html.dark .text-red-700, html.dark .text-red-600 { color: #f87171 !important; }
+    html.dark .text-amber-700 { color: #fbbf24 !important; }
+    html.dark .text-emerald-700, html.dark .text-emerald-600 { color: #34d399 !important; }
+    html.dark .border-blue-200, html.dark .border-blue-300 { border-color: rgba(59, 130, 246, 0.5) !important; }
+    html.dark .border-amber-100 { border-color: rgba(245, 158, 11, 0.3) !important; }
+    html.dark .border-orange-100 { border-color: rgba(249, 115, 22, 0.3) !important; }
+    html.dark .bg-slate-100 { background-color: #334155 !important; }
+    html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #334155 !important; }
+    html.dark .bg-slate-200 { background-color: #475569 !important; color: #f1f5f9 !important;}
+    html.dark .hover\:bg-slate-300:hover { background-color: #64748b !important; }
+    html.dark .hover\:bg-blue-50\/40:hover { background-color: rgba(30, 58, 138, 0.4) !important; }
+    
+    html.dark .logo-badge-3d { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-color: #334155; }
+    html.dark .brand-title-3d { color: #93c5fd; border-bottom-color: #3b82f6; }
+    html.dark .bcp-badge-3d { background: linear-gradient(145deg, #1e293b 0%, #1e293b 60%, #0f172a 100%); border-color: #334155; }
+    
+    html.dark .badge-califica { background-color: rgba(16, 185, 129, 0.1) !important; border-color: rgba(16, 185, 129, 0.5) !important; color: #6ee7b7 !important; }
+    html.dark .badge-liquidez { background-color: rgba(239, 68, 68, 0.1) !important; border-color: rgba(239, 68, 68, 0.5) !important; color: #fca5a5 !important; }
+    html.dark .badge-sobreendeudado { background-color: rgba(245, 158, 11, 0.1) !important; border-color: rgba(245, 158, 11, 0.5) !important; color: #fcd34d !important; }
+    
+    html.dark header.bg-white { background-color: #0f172a !important; border-bottom-color: #334155 !important; }
+    html.dark footer.bg-white { background-color: #0f172a !important; border-top-color: #334155 !important; }
+    html.dark .bg-gradient-to-r.from-blue-50 { background: linear-gradient(to right, #0f172a, #1e293b, #0f172a) !important; border-bottom-color: #334155 !important;}
+    html.dark .from-blue-900 { --tw-gradient-from: #0f172a; }
+    html.dark .via-indigo-900 { --tw-gradient-via: #1e293b; }
+    html.dark .to-sky-900 { --tw-gradient-to: #0f172a; }
+
+    /* Logo 3D Camargo Group */
+    .logo-badge-3d {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ffffff 0%, #f4f6fa 100%);
+      box-shadow: 0 4px 14px rgba(0, 42, 143, 0.12), inset 0 1px 1px #fff;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      transition: all 0.3s ease;
+    }
+    .logo-badge-3d:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0, 42, 143, 0.2);
+    }
+    .cube-3d-cluster {
+      position: relative;
+      width: 36px;
+      height: 32px;
+      margin-right: 8px;
+    }
+    .c-box { position: absolute; border-radius: 2.5px; }
+    .c-box-brown { top: 0px; left: 11px; width: 14px; height: 14px; background: linear-gradient(135deg, #743431, #4a211f); box-shadow: 1.5px 1.5px 4px rgba(0,0,0,0.25); }
+    .c-box-red { top: 10px; left: 0px; width: 15px; height: 15px; background: linear-gradient(135deg, #c72527, #8b1214); box-shadow: 1.5px 2px 5px rgba(0,0,0,0.3); }
+    .c-box-blue { top: 10px; left: 15px; width: 11px; height: 10px; background: linear-gradient(135deg, #2b6cb0, #1a4473); box-shadow: 1px 1.5px 3px rgba(0,0,0,0.2); }
+    .c-box-white { top: 18px; left: 14px; width: 12px; height: 12px; background: linear-gradient(135deg, #ffffff, #cbd5e1); box-shadow: 1px 1.5px 3px rgba(0,0,0,0.15); }
+    
+    .brand-title-3d {
+      font-weight: 900;
+      letter-spacing: 0.5px;
       font-size: 13px;
+      line-height: 1.1;
+      color: #002A8F;
+      border-bottom: 2px solid #001B5E;
+      padding-bottom: 1px;
     }
-    .triangle-corner {
-      width: 0;
-      height: 0;
-      border-bottom: 70px solid #FF7800;
-      border-left: 70px solid transparent;
+    .brand-sub-3d {
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      font-size: 7.5px;
+      color: #c72527;
+      text-transform: uppercase;
     }
-    .cell-transition {
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Insignia 3D BCP */
+    .bcp-badge-3d {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #ffffff 0%, #f6f9fe 60%, #eaf1fa 100%);
+      box-shadow: 0 6px 14px -3px rgba(0, 42, 143, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(219, 234, 254, 0.9);
+      transition: all 0.3s ease;
     }
-    @keyframes pulseArrow {
-      0%, 100% { transform: translateX(0); opacity: 0.9; }
-      50% { transform: translateX(-8px); opacity: 1; }
+    .bcp-badge-3d:hover {
+      transform: translateY(-1.5px) scale(1.02);
+      box-shadow: 0 10px 20px -3px rgba(0, 42, 143, 0.28);
     }
-    .animate-arrow-left {
-      animation: pulseArrow 1.2s infinite ease-in-out;
+    .bcp-logo-img {
+      height: 24px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 3px rgba(0, 42, 143, 0.25));
+    }
+
+    .btn-bcp-orange {
+      background: linear-gradient(180deg, #FF8412 0%, #FF6800 100%);
+      box-shadow: 0 4px 12px rgba(255, 120, 0, 0.3);
+      transition: all 0.2s ease;
+    }
+    .btn-bcp-orange:hover {
+      background: linear-gradient(180deg, #FF9026 0%, #E65E00 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(255, 120, 0, 0.4);
+    }
+
+    @keyframes floatMascot {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+    .animate-mascot { animation: floatMascot 3.5s ease-in-out infinite; }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15); }
+      50% { box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35); }
+    }
+    .glow-califica { animation: pulseGlow 2.5s infinite; }
+
+    .badge-califica { background: #ECFDF5; color: #047857; border: 1.5px solid #10B981; }
+    .badge-liquidez { background: #FEF2F2; color: #B91C1C; border: 1.5px solid #F87171; }
+    .badge-sobreendeudado { background: #FFFBEB; color: #B45309; border: 1.5px solid #F59E0B; }
+
+    /* Avatar Camarguito */
+    .camarguito-avatar {
+      position: relative;
+      width: 58px;
+      height: 58px;
+      background: radial-gradient(circle at 35% 30%, #FFE0B2 0%, #FFB74D 45%, #E65100 100%);
+      border-radius: 50%;
+      border: 2.5px solid #FFFFFF;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .camarguito-ear-l, .camarguito-ear-r {
+      position: absolute;
+      top: -2px;
+      width: 17px;
+      height: 17px;
+      background: #D84315;
+      border-radius: 50%;
+      border: 1.5px solid #FFFFFF;
+    }
+    .camarguito-ear-l { left: 3px; }
+    .camarguito-ear-r { right: 3px; }
+    .camarguito-face {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .camarguito-eyes { display: flex; gap: 11px; margin-top: 6px; }
+    .camarguito-eye {
+      width: 7px;
+      height: 9px;
+      background: #212121;
+      border-radius: 50%;
+      position: relative;
+    }
+    .camarguito-eye::after {
+      content: '';
+      position: absolute;
+      top: 1.5px;
+      left: 1.5px;
+      width: 2.5px;
+      height: 2.5px;
+      background: #FFF;
+      border-radius: 50%;
+    }
+    .camarguito-nose { width: 8px; height: 4px; background: #8D6E63; border-radius: 50%; margin-top: 2px; }
+    .camarguito-cheeks { display: flex; gap: 26px; margin-top: -5px; }
+    .camarguito-cheek { width: 8px; height: 5px; background: #FF8A80; border-radius: 50%; opacity: 0.8; }
+    .camarguito-teeth { width: 6px; height: 4px; background: #FFFFFF; border-radius: 0 0 2px 2px; margin-top: 1px; border: 0.5px solid #D7CCC8; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-card { animation: fadeInUp 0.35s ease-out forwards; }
+    
+    .field-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #475569;
+      display: block;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .input-cell {
+      width: 100%;
+      padding: 4px 6px;
+      font-size: 11.5px;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+      outline: none;
+      transition: all 0.15s ease;
+      background: #FFFFFF;
+    }
+    .input-cell:focus {
+      border-color: #002A8F;
+      box-shadow: 0 0 0 2px rgba(0, 42, 143, 0.15);
     }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-orange-200">
+<body class="min-h-screen text-slate-800 flex flex-col justify-between" oncontextmenu="return false;">
 
-  <header class="bg-brand-navy text-white px-5 py-3 shadow-md border-b-4 border-brand-orange flex flex-wrap justify-between items-center gap-3">
-    <div class="flex items-center space-x-3">
-      <div class="bg-white/10 p-2 rounded-lg text-brand-orange">
-        <i class="fa-solid fa-calculator text-xl"></i>
-      </div>
-      <div>
-        <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-          Capacitación: <span class="text-orange-400 font-semibold">Resumen de Carga Crediticia</span>
-        </h1>
-        <p class="text-xs text-slate-300">Simulador de reemplazo de Saldo y Cuota de Crédito Efectivo</p>
-      </div>
+  <div>
+    <!-- Cintillo Superior Oficial BCP -->
+    <div class="bg-gradient-to-r from-sky-900 via-blue-900 to-indigo-900 text-white text-[11px] font-semibold py-1.5 px-4 text-center tracking-wide flex justify-center items-center gap-2 shadow-inner">
+      <span>🏥 Calculadora Oficial Convenio ESSALUD | Camargo Group - BCP</span>
+      <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px]">Campaña Activa 2026</span>
     </div>
 
-    <!-- Quick action tools -->
-    <div class="flex items-center gap-2 flex-wrap">
-      <button id="btnAutoPlay" class="px-3 py-1.5 text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition flex items-center gap-1.5 shadow-sm">
-        <i class="fa-solid fa-play"></i> <span id="autoPlayLabel">Reproducir Demo</span>
-      </button>
-      <button id="btnSpeechModal" class="px-3 py-1.5 text-xs font-semibold bg-white/15 hover:bg-white/25 text-white rounded-md transition flex items-center gap-1.5 shadow-sm">
-        <i class="fa-solid fa-bullhorn text-amber-300"></i> Guión de Capacitación
-      </button>
-      <button id="btnQuizMode" class="px-3 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition flex items-center gap-1.5 shadow-sm">
-        <i class="fa-solid fa-circle-question"></i> Quiz Rápido
-      </button>
-      <button id="btnFullScreen" class="px-3 py-1.5 text-xs font-medium bg-white/10 hover:bg-white/20 text-slate-200 rounded-md transition flex items-center gap-1.5">
-        <i class="fa-solid fa-expand"></i> Pantalla Completa
-      </button>
-    </div>
-  </header>
-
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-    
-    <!-- LEFT PANEL: Dynamic Trainer Script & Step Tracker -->
-    <section class="lg:col-span-4 bg-white rounded-xl shadow-lg border border-slate-200 p-5 flex flex-col justify-between h-full relative overflow-hidden">
-      <!-- Decorative top ribbon -->
-      <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-brand-orange via-blue-600 to-brand-navy"></div>
-
-      <div>
-        <!-- Step progress indicators -->
-        <div class="flex items-center justify-between mb-3 mt-1">
-          <span class="text-xs font-bold uppercase tracking-wider text-brand-blue flex items-center gap-1.5">
-            <i class="fa-solid fa-list-check"></i> Pasos de la Dinámica
-          </span>
-          <span id="stepCounter" class="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-100 text-brand-blue">
-            Paso 1 de 4
-          </span>
-        </div>
-
-        <div class="grid grid-cols-4 gap-1.5 mb-4">
-          <div id="stepTab1" class="h-2 rounded-full bg-brand-orange transition-all duration-300"></div>
-          <div id="stepTab2" class="h-2 rounded-full bg-slate-200 transition-all duration-300"></div>
-          <div id="stepTab3" class="h-2 rounded-full bg-slate-200 transition-all duration-300"></div>
-          <div id="stepTab4" class="h-2 rounded-full bg-slate-200 transition-all duration-300"></div>
-        </div>
-
-        <!-- Animated Dialog Card -->
-        <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-orange-200 rounded-xl p-4 shadow-sm mb-4 relative transition-all duration-300" id="speechContainer">
-          <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center shrink-0 shadow-md font-bold text-lg" id="stepIcon">
-              👀
+    <!-- Header Principal -->
+    <header class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-30">
+      <div class="max-w-7xl mx-auto px-4 py-2 flex flex-wrap justify-between items-center gap-4">
+        
+        <!-- Logos Co-Branding -->
+        <div class="flex items-center gap-3">
+          <div class="logo-badge-3d cursor-pointer select-none">
+            <div class="cube-3d-cluster">
+              <div class="c-box c-box-brown"></div>
+              <div class="c-box c-box-red"></div>
+              <div class="c-box c-box-blue"></div>
+              <div class="c-box c-box-white"></div>
             </div>
             <div>
-              <h2 id="stepTitle" class="font-bold text-brand-navy text-sm md:text-base leading-snug">
-                ¡Ojo al dato, equipo!
-              </h2>
-              <p id="stepDescription" class="text-xs md:text-sm text-slate-700 mt-1 leading-relaxed">
-                Vamos a actualizar la fila de <strong>Crédito Efectivo</strong> con un doble reemplazo: <strong>Saldo</strong> y <strong>Cuota no BCP</strong>.
-              </p>
+              <div class="brand-title-3d">CAMARGO GROUP</div>
+              <div class="brand-sub-3d">OUTSOURCING</div>
             </div>
           </div>
 
-          <!-- Highlight takeaway box -->
-          <div id="stepTip" class="mt-3 pt-3 border-t border-orange-200/80 text-xs text-brand-navy font-semibold flex items-center gap-2">
-            <i class="fa-solid fa-lightbulb text-amber-500 text-sm"></i>
-            <span>Revisa los valores originales antes del ajuste en la evaluación.</span>
+          <span class="text-slate-300 font-light text-xl">×</span>
+
+          <div class="bcp-badge-3d select-none cursor-pointer" title="Canal Oficial BCP Convenios">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIEAAAAtCAYAAACJfgjFAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAZVSURBVHhe7Zo9bNtGFMf/KRoUKAqlBlwUsCKEzlRARYcEKqApEhrEYzwkWS0B7lB7y5DFg+nBS4ZuzmIDotc6g4xONmJYAQq4jepMVTo1YurIUwAlQpaigzqQjyYf3/HD+kjc3A8QLN6d6Lt7/3vv3ZHn+v1+H5oPmo94gebDQ4tAo0Wg0SLQaBFooEWggRaBBloEGmgRaKBFoIEWgQZaBBoAOPd/eIBkd3oAACOb4VWnwu70YB+/gd3p4cVxD5emnPsa2QxKhRxvfuY5UyJoNI+wsvYrAHhG4pAQKrN5XCtcTGW0lQcHaDx5iUbziFd5GNkMKrN5zN3MB0TXaB5hs/4Mdqcn/t7IZmBMXXD+ZjNYXijyJu+MsYrA7vSwud0CgNAkJqG6tAOr7vw+KZXZPGqrM7w4QKN5hOrSjigqFUY2g/buvHedtm8kpigx0HxdmnLajoqxiaDRPEK5suVdG9kMmvf+xeT1HwLtopi+sZHKUAQ3mB+r3kJ1aYcXJ2Lfuu15mtP2zVwsikLgorLmP8HcN6+A75YD7YbBWBJDLgC4Kv/j90Pg/jTQtQN1KqRJrszmYS4WUZnNK1eLykUnEQC5b8lrGVMXvO9S3yiHoI+EuXYQ6lu5shXyKht7b4FHJrC3EigfBmMRAcVxzvbzi44A1suxg+OTAneSa6szWF4oorY6g9rqDNq786LBHjdfBq4pBEgY2QzMxSL6rbto784HPrXVGc+g9H+kvgHA8kIR+9Zt79PenRfF4O9bo3kUEgUA/NI+j9dfFB0h3J/m1QMxchFIKyRE1wYOrUghcCMCECeUYi2H90MlzFIhh/buvOii6d5k1Dh4/0i0nMaTk7HZnZ4oYgB4hS+dL117qEIYuQiMbAb71m3UVmeUgwN8Qnje4DWAu0I41woXeRHAJpXwt7XqLfF+1Nck+A0sCRQ+T8HLpHKiMpvHfu0OzMWwCD/79PzJxRCFMHIRENLgvp58G2iDrg08rIo5Al/JEFYaFAbm3mGz/ixQT0irNAn8/8Edrwo+Fi4Kw91C8tA22f0t0M6brwEZmwjgGxwJ4drkX7yJMzAWFlQxd3PbMbhVb2HlwQGmb2yE4ryRzWC/didQpjKaJKokcKMiwktJY1G1pb6TED7u/c2bRHrPpIxVBAQlcsY/T3mVAxvUi+PwJMPNrMuVLVSXdmCuHQSMYbjJHV9NkhEQYYg4VPeTBGV3eiGRQtGWICH8qU6XgPZjXpKKdyICAKjkmrKy4XoDH9JKi4I8jpTcqeJ3lPuOQnU/+/jNyfdOz/NUHHOxGAoHHCObwVfdn3nxCUL4TMPYDotCRJ0PTBjAvbZ3eS7/Y6A6KdydQjiEoXaqw6Q4VIdE9D+lOqJUyCVLRA+t6Nh/qwZcrfDSxLwbT7BeVgsACJyKSfEbgLdvp52HtJJpBfqR7uc/9EmLysh2p6esQxoBJEn+Lpd4SSrGL4KH1VDMDzBhBFQtTWSpkIPhbrVKhZz3fEDaVln1VjBXEAzud91p4B4lCZSrJBZA3DbwVs2ZswEYrwjWy45rUzFhAN/vB4qkmKuKoXM3w94ACYwsCe208L6RWMnwqoOoEM8b8QK4WhkoDBDjEQEpOs4DCKqW3Lcqk+cGIPxGLn0r/5aHjSRIAi0Vcui37nofClvLC8XIXUCAvRVnwURxueTM1xAYrQhozx+VBMLnAYTYJq1S1WSq3LO/vUpAPGxI8Po0Ak0Erf5HJq8Jct0MecxBGJ0IDq1kA7pccnYCQlxTGZWveEoApT04uWPv2n2xg2N3eihXfxI9gmqLx0WBCIHGsl6OT5jh5gBDfpw8ui1ikqTmuhk5IOkRNNw9vZHNeBm4tCIJ/zN/wkr6CHnqQuDelIAi4h791l1elIy9legFQ95SWCyDMjpPENVpWv0RAoAik4drAHPtQHxO4Mf/2NcPvYMQRZy4pHxA2qYm5sqcsyg4E4ZTrvCWw2B0noDo2k6se/3Cub4yl2ow0uFOHIb7yFYSAGG7r26Za2H3ryLuTSLJ66SmawNPN53vn18aSvYfx+hFMCBkrKQvgKZ9uZTifZTQDPcY2r/S+Slm4sOf95D3XgR++MqDkCSeFro3FxodTPmx3VfS/W3OMmdKBJrRMLrEUHNm0CLQaBFotAg0WgQaaBFooEWgAYD/AKmdMqYuS/ZvAAAAAElFTkSuQmCC" alt="BCP" class="bcp-logo-img">
+          </div>
+
+          <div class="ml-3 pl-3 border-l border-slate-200 hidden md:block">
+            <span class="text-xs font-bold text-[#002A8F] block">Calculadora Convenio ESSALUD</span>
+            <span class="text-[10px] text-slate-400">Canal Certificado 2026</span>
           </div>
         </div>
 
-        <!-- Instructor Quick Speech Box -->
-        <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs text-slate-600 mb-4">
-          <div class="flex items-center justify-between font-semibold text-slate-800 mb-1">
-            <span class="flex items-center gap-1.5">
-              <i class="fa-regular fa-comment-dots text-brand-blue"></i> Speech coloquial del paso:
-            </span>
-            <button id="btnCopyQuickSpeech" class="text-[11px] text-brand-blue hover:text-brand-navy underline flex items-center gap-1">
-              <i class="fa-regular fa-copy"></i> Copiar
-            </button>
-          </div>
-          <p id="liveScriptText" class="italic text-slate-700 leading-relaxed">
-            "A ver equipo, miren bien la fila de Crédito Efectivo..."
-          </p>
-        </div>
-
-        <!-- Summary Comparison Badges -->
-        <div class="grid grid-cols-2 gap-2 text-xs mb-3">
-          <div id="cardSaldoBox" class="p-2.5 rounded-lg border bg-slate-50 border-slate-200 transition-all">
-            <span class="block text-[10px] uppercase font-bold text-slate-500 mb-1">1. Saldo Capital</span>
-            <div class="flex items-center justify-between font-mono">
-              <span id="badgeOldSaldo" class="text-slate-600 line-through">45,972</span>
-              <i class="fa-solid fa-arrow-right text-[10px] text-slate-400"></i>
-              <span id="badgeNewSaldo" class="font-bold text-brand-navy">4,000.00</span>
-            </div>
-          </div>
-          <div id="cardCuotaBox" class="p-2.5 rounded-lg border bg-slate-50 border-slate-200 transition-all">
-            <span class="block text-[10px] uppercase font-bold text-slate-500 mb-1">2. Cuota no BCP</span>
-            <div class="flex items-center justify-between font-mono">
-              <span id="badgeOldCuota" class="text-slate-600 line-through">893.00</span>
-              <i class="fa-solid fa-arrow-right text-[10px] text-slate-400"></i>
-              <span id="badgeNewCuota" class="font-bold text-brand-navy">77.70</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Controls: Navigation buttons -->
-      <div class="pt-3 border-t border-slate-100 flex flex-col gap-2">
-        <div class="flex gap-2">
-          <button id="btnPrevStep" class="flex-1 py-2.5 px-3 rounded-lg border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold text-xs transition flex items-center justify-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed" disabled>
-            <i class="fa-solid fa-arrow-left"></i> Anterior
+        <!-- Acciones Directas -->
+        <div class="flex items-center gap-3">
+          <button onclick="toggleDarkMode()" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm transition hover:scale-105" title="Modo Oscuro/Claro">
+            <i id="darkModeIcon" class="fa-solid fa-sun text-amber-400"></i>
           </button>
-          <button id="btnNextStep" class="flex-2 w-2/3 py-2.5 px-4 rounded-lg bg-brand-orange hover:bg-brand-orangeHover text-white font-bold text-xs tracking-wide shadow-md transition flex items-center justify-center gap-2">
-            <span>Siguiente Paso</span> <i class="fa-solid fa-arrow-right"></i>
+          
+          <div class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-[10px] text-slate-500 shadow-sm">
+            <i class="fa-solid fa-code text-[#002A8F]"></i>
+            <span>Por: <strong class="text-slate-700">Luis Angel Garcia C. (Lattis)</strong></span>
+          </div>
+
+          <button onclick="abrirModalCronograma()" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#002A8F] text-white shadow hover:bg-blue-900 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-table-list text-amber-400"></i> Cronograma de Pagos
           </button>
         </div>
 
-        <button id="btnResetSimulation" class="w-full py-1.5 text-xs font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition flex items-center justify-center gap-1.5">
-          <i class="fa-solid fa-arrow-rotate-left"></i> Reiniciar demostración
-        </button>
       </div>
-    </section>
+    </header>
 
-    <!-- RIGHT PANEL: Authentic Simulator Table -->
-    <section class="lg:col-span-8 bg-white rounded-xl shadow-lg border border-slate-200 p-5 relative overflow-hidden flex flex-col justify-between">
-      
-      <!-- Top Simulator Branding -->
-      <div>
-        <div class="flex flex-wrap items-center justify-between border-b pb-3 mb-4 gap-2">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Simulador de Riesgos</span>
-            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
-              <i class="fa-solid fa-circle text-[8px] animate-ping"></i> Evaluación Activa
-            </span>
-          </div>
-          <div class="text-xs text-slate-500 flex items-center gap-3">
-            <span>Tasa Campaña: <strong class="text-slate-700 font-mono">0.00%</strong></span>
-            <span class="font-mono text-slate-400">EXP-8842-BCP</span>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2 mb-3">
-          <h2 class="text-base md:text-lg font-bold text-brand-navy">
-            Resumen de Carga Crediticia
-          </h2>
-          <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 text-xs shadow-sm">
-            <i class="fa-solid fa-check"></i>
-          </span>
-        </div>
-
-        <!-- The Responsive Mock Sheet Table Container -->
-        <div class="overflow-x-auto pb-2">
-          <div class="min-w-[640px]">
-            <!-- Table Header -->
-            <div class="grid grid-cols-12 gap-1 mb-1 text-center font-bold text-xs text-brand-navy">
-              <div class="col-span-3 text-left pl-2 flex items-center font-semibold text-slate-700">Concepto</div>
-              <div class="col-span-2 p-2 bg-brand-lightBlue border border-brand-border rounded-t-md flex items-center justify-center">
-                Deuda cuota BCP
-              </div>
-              <div class="col-span-2 p-2 bg-brand-lightBlue border border-brand-border rounded-t-md flex items-center justify-center">
-                Deuda cuota no BCP
-              </div>
-              <div class="col-span-2 p-2 bg-brand-lightBlue border border-brand-border rounded-t-md flex items-center justify-center">
-                Saldo
-              </div>
-              <div class="col-span-2 p-2 bg-brand-lightBlue border border-brand-border rounded-t-md flex items-center justify-center">
-                Saldo Actualizado
-              </div>
-              <div class="col-span-1 p-2 text-[11px] leading-tight flex items-center justify-center text-brand-navy">
-                Cuota Actualizada
-              </div>
-            </div>
-
-            <!-- Rows Container -->
-            <div class="space-y-1 text-xs">
-              
-              <!-- Row 1: Crédito Hipotecario -->
-              <div class="grid grid-cols-12 gap-1 items-center">
-                <div class="col-span-3 pl-2 text-brand-blue font-medium">Crédito Hipotecario</div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
-              </div>
-
-              <!-- Row 2: CRÉDITO EFECTIVO (PRIMARY FOCUS ROW) -->
-              <div id="rowEfectivo" class="grid grid-cols-12 gap-1 items-center bg-blue-50/60 p-1.5 rounded-lg border-2 border-transparent transition-all duration-300 relative">
-                
-                <!-- Helper indicator pointer -->
-                <div id="targetPointer" class="hidden absolute -left-3 top-1/2 -translate-y-1/2 bg-brand-orange text-white text-xs px-2 py-0.5 rounded shadow-lg font-bold items-center gap-1 z-20 animate-bounce">
-                  <i class="fa-solid fa-arrow-right"></i> <span id="pointerText">Actualizar</span>
-                </div>
-
-                <div class="col-span-3 pl-1 text-brand-blue font-bold flex items-center gap-1">
-                  <span>Crédito Efectivo</span>
-                </div>
-
-                <!-- Empty BCP quota -->
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-
-                <!-- TARGET CELL 1: Deuda cuota no BCP (893.00 -> 77.70) -->
-                <div id="cellNoBcp" class="col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono font-medium relative cell-transition">
-                  <span class="text-slate-400 text-[10px]">S/</span>
-                  <div class="relative flex items-center justify-end w-full pl-1">
-                    <span id="valNoBcpText" class="text-slate-800 font-bold transition-all duration-300">893.00</span>
-                    <div id="crossLineCuota" class="hidden absolute top-1/2 left-0 right-0 h-[2.5px] bg-red-600 rounded transform -rotate-12 transition-all"></div>
-                  </div>
-                  <span id="badgeCuotaNew" class="hidden absolute -top-2.5 right-1 bg-emerald-600 text-white font-sans text-[9px] font-bold px-1.5 py-0.2 rounded shadow">
-                    NUEVO
-                  </span>
-                </div>
-
-                <!-- TARGET CELL 2: Saldo (45,972.00 -> 4,000.00) -->
-                <div id="cellSaldo" class="col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono text-slate-700 relative cell-transition">
-                  <span class="text-slate-400 text-[10px]">S/</span>
-                  <div class="relative flex items-center justify-end w-full pl-1">
-                    <span id="valSaldoText" class="font-bold text-slate-800 transition-all duration-300">45,972.00</span>
-                    <div id="crossLineSaldo" class="hidden absolute top-1/2 left-0 right-0 h-[2.5px] bg-red-600 rounded transform -rotate-12 transition-all"></div>
-                  </div>
-                  <span id="badgeSaldoNew" class="hidden absolute -top-2.5 right-1 bg-emerald-600 text-white font-sans text-[9px] font-bold px-1.5 py-0.2 rounded shadow">
-                    NUEVO
-                  </span>
-                </div>
-
-                <!-- SOURCE CELL 1: Saldo Actualizado (4,000.00) -->
-                <div id="cellSaldoAct" class="col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono font-semibold text-brand-blue relative cell-transition">
-                  <span class="text-slate-400 text-[10px]">S/</span>
-                  <span id="valSaldoAct">4,000.00</span>
-                  
-                  <!-- Arrow transferring to Saldo column -->
-                  <div id="arrowSaldoTransfer" class="hidden absolute -left-4 top-1/2 -translate-y-1/2 text-emerald-600 text-xs font-bold animate-arrow-left z-20">
-                    <i class="fa-solid fa-arrow-left text-sm"></i>
-                  </div>
-                </div>
-
-                <!-- SOURCE CELL 2: Cuota Actualizada (77.70) -->
-                <div id="cellCuotaAct" class="col-span-1 text-right pr-1 font-mono font-bold text-slate-800 flex items-center justify-end gap-1 relative cell-transition">
-                  <span class="text-[10px] text-slate-400">S/</span>
-                  <span id="valCuotaAct" class="transition-all duration-300">77.70</span>
-                  
-                  <!-- Arrow transferring towards No BCP quota -->
-                  <div id="arrowCuotaTransfer" class="hidden absolute -left-2 top-1/2 -translate-y-1/2 text-emerald-600 text-xs font-bold animate-arrow-left z-20">
-                    <i class="fa-solid fa-arrow-left text-sm"></i>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Row 3: Crédito Vehicular -->
-              <div class="grid grid-cols-12 gap-1 items-center">
-                <div class="col-span-3 pl-2 text-brand-blue font-medium">Crédito Vehicular</div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
-              </div>
-
-              <!-- Row 4: Pyme -->
-              <div class="grid grid-cols-12 gap-1 items-center">
-                <div class="col-span-3 pl-2 text-brand-blue font-medium">Pyme</div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
-              </div>
-
-              <!-- Row 5: Comercial (159.00 en BCP) -->
-              <div class="grid grid-cols-12 gap-1 items-center">
-                <div class="col-span-3 pl-2 text-brand-blue font-medium">Comercial</div>
-                <div class="col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono">
-                  <span class="text-slate-400 text-[10px]">S/</span>
-                  <span class="text-slate-700">159.00</span>
-                </div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
-              </div>
-
-              <!-- Row 6: Deuda Indirecta -->
-              <div class="grid grid-cols-12 gap-1 items-center">
-                <div class="col-span-3 pl-2 text-brand-blue font-medium">Deuda Indirecta</div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
-              </div>
-
-              <!-- Row 7: Línea utilizada -->
-              <div class="grid grid-cols-12 gap-1 items-center">
-                <div class="col-span-3 pl-2 text-brand-blue font-medium">Línea utilizada de tarjeta de Crédito</div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
-              </div>
-
-              <!-- Row 8: Línea no utilizada -->
-              <div class="grid grid-cols-12 gap-1 items-center">
-                <div class="col-span-3 pl-2 text-brand-blue font-medium">Línea no utilizada</div>
-                <div class="col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono">
-                  <span class="text-slate-400 text-[10px]">S/</span>
-                  <span class="text-slate-400">-</span>
-                </div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-2 table-cell-custom bg-white"></div>
-                <div class="col-span-1 text-right pr-2 text-slate-400 font-mono">S/ -</div>
-              </div>
-
-            </div>
-
-            <!-- Bottom Risk Indicators (Endeudamiento & CEM) -->
-            <div class="mt-4 pt-3 border-t border-slate-200 grid grid-cols-12 gap-2 text-xs">
-              <div class="col-span-7 space-y-1.5">
-                <div class="flex items-center justify-between font-bold text-brand-navy">
-                  <span>% Endeudamiento</span>
-                  <span class="text-brand-blue font-mono text-sm">34%</span>
-                </div>
-                <div class="flex items-center justify-between font-bold text-brand-navy">
-                  <span>CEM</span>
-                  <span id="cemDisplay" class="text-emerald-700 font-mono text-sm font-extrabold transition-all">S/ 2,848.09</span>
-                </div>
-                <div class="flex items-center justify-between font-bold text-brand-navy">
-                  <span>Dictamen</span>
-                  <button class="text-brand-blue hover:underline font-bold text-xs flex items-center gap-1">
-                    <span>Continuar</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                  </button>
-                </div>
-              </div>
-
-              <div id="ruleBox" class="col-span-5 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-[11px] text-slate-600 flex flex-col justify-center transition-all">
-                <span class="font-bold text-slate-800 flex items-center gap-1 mb-0.5">
-                  <i class="fa-solid fa-arrows-rotate text-blue-500"></i> Resumen de Sustitución:
-                </span>
-                <span id="ruleText">
-                  1. Saldo: <strong>S/ 45,972.00 ➔ S/ 4,000.00</strong><br>
-                  2. Cuota: <strong>S/ 893.00 ➔ S/ 77.70</strong>
-                </span>
-              </div>
-            </div>
-
-            <!-- Footer notes -->
-            <div class="mt-3 text-[10px] text-slate-500 italic flex items-center justify-between">
-              <div>
-                <span class="underline font-semibold">Nota:</span> Las cuotas son referenciales, sujetas a calificación y a la fecha de desembolso del crédito.
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom orange corner triangle design as in original screen -->
-      <div class="absolute bottom-0 right-0 triangle-corner pointer-events-none"></div>
-    </section>
-
-  </main>
-
-  <!-- MODAL: Full Training Script for Presentation -->
-  <div id="speechModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6 relative border border-slate-200">
-      <button id="btnCloseModal" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <div class="flex items-center gap-3 mb-4">
-        <div class="w-10 h-10 rounded-xl bg-orange-100 text-brand-orange flex items-center justify-center text-xl font-bold">
-          <i class="fa-solid fa-chalkboard-teacher"></i>
-        </div>
+    <!-- Banner Superior -->
+    <div class="bg-gradient-to-r from-blue-50 via-sky-50 to-orange-50 border-b border-blue-100 py-3 px-4 shadow-sm">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
         <div>
-          <h3 class="text-lg font-bold text-slate-800">Guión de Capacitación para el Relator</h3>
-          <p class="text-xs text-slate-500">Texto coloquial listo para tu presentación o notas de orador</p>
+          <div class="flex items-center gap-2">
+            <span class="bg-[#002A8F] text-white text-[10px] font-black px-2 py-0.5 rounded tracking-wider uppercase">CONVENIO OFICIAL</span>
+            <h2 class="text-base md:text-lg font-black text-[#002A8F] tracking-tight">Evaluación y Simulación ESSALUD</h2>
+          </div>
+          <p class="text-xs text-slate-600 mt-0.5">Calcula con exactitud el RCI al 40%, ratios de endeudamiento SBS (70%) y tabla de amortización con periodo de gracia.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="abrirCamarguitoManual()" class="btn-bcp-orange text-white text-xs font-bold px-4 py-2 rounded-full flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-comments"></i> Consejos de Camarguito
+          </button>
         </div>
       </div>
+    </div>
 
-      <div id="fullSpeechText" class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs md:text-sm text-slate-700 space-y-3 font-sans leading-relaxed max-h-[60vh] overflow-y-auto">
-        <p class="font-bold text-brand-navy text-sm">
-          🛑 ¡Ojo al dato, equipo! Vamos a hacer un cambio importante para nuestro cliente.
-        </p>
-        <p>
-          A ver, miren esta fila de <strong>"Crédito Efectivo"</strong> que les estoy mostrando en pantalla. Tiene dos datos antiguos que debemos actualizar por completo:
-        </p>
-        
-        <div class="space-y-2 my-2">
-          <div class="bg-amber-50 p-2.5 rounded-lg border border-amber-200 text-xs">
-            <strong>1. El Saldo anterior:</strong> ¿Ven esos <strong>S/ 45,972.00</strong>? ¡Ese monto ya no va! En su lugar colocamos el nuevo <strong>Saldo Actualizado de S/ 4,000.00</strong>.
+    <main class="max-w-7xl mx-auto px-4 py-5">
+
+      <!-- ================= EVALUADOR PRINCIPAL ESSALUD ================= -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+        <!-- ================= COLUMNA IZQUIERDA: BOLETA Y DESCUENTOS ================= -->
+        <div class="lg:col-span-5 space-y-4">
+          
+          <!-- 1. Cabecera de Convenio y RCI -->
+          <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200 animate-card">
+            <div class="flex justify-between items-center pb-2 border-b border-slate-100 mb-2.5">
+              <span class="text-xs font-black text-[#002A8F] uppercase tracking-wider flex items-center">
+                <i class="fa-solid fa-hospital text-blue-600 mr-1.5"></i> Parámetros Convenio
+              </span>
+              <span class="text-[10px] font-bold px-2 py-0.5 bg-blue-50 text-blue-800 rounded-full border border-blue-200">ESSALUD</span>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2 text-center text-xs">
+              <div class="bg-blue-50/70 p-2 rounded-xl border border-blue-100">
+                <span class="text-slate-500 block text-[9px] font-bold uppercase">RCI</span>
+                <span class="font-black text-[#002A8F] text-sm">40%</span>
+              </div>
+              <div class="bg-slate-50 p-2 rounded-xl border border-slate-200">
+                <span class="text-slate-500 block text-[9px] font-bold uppercase">Corte</span>
+                <span class="font-bold text-slate-700 text-sm">30</span>
+              </div>
+              <div class="bg-slate-50 p-2 rounded-xl border border-slate-200">
+                <span class="text-slate-500 block text-[9px] font-bold uppercase">Vencimiento</span>
+                <span class="font-bold text-slate-700 text-sm">15</span>
+              </div>
+              <div class="bg-orange-50/70 p-2 rounded-xl border border-orange-100">
+                <span class="text-slate-500 block text-[9px] font-bold uppercase">Gracia (PG)</span>
+                <span id="lblPG" class="font-black text-[#FF7800] text-sm">1</span>
+              </div>
+            </div>
           </div>
-          <div class="bg-amber-50 p-2.5 rounded-lg border border-amber-200 text-xs">
-            <strong>2. La Deuda cuota no BCP:</strong> ¿Ven los <strong>S/ 893.00</strong>? ¡También desaparecen de nuestro mapa! En su lugar colocamos exactamente la cuota que calculó el sistema: <strong>S/ 77.70</strong>.
+
+          <!-- 2. Totales de Boleta -->
+          <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200 animate-card">
+            <h3 class="text-xs font-black text-[#002A8F] uppercase tracking-wider mb-2.5 flex items-center">
+              <i class="fa-solid fa-file-invoice-dollar text-emerald-600 mr-1.5"></i> Resumen de Boleta de Pago
+            </h3>
+
+            <div class="space-y-2">
+              <div>
+                <label class="field-label font-bold text-slate-700">Total de Ingresos (K14)</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 font-bold text-xs">S/</span>
+                  <input type="number" id="inpTotalIngresos" value="12032.48" step="0.01" class="input-cell pl-8 font-black text-slate-900 text-sm border-blue-200 bg-blue-50/20">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="field-label">Ingreso neto boleta (K16)</label>
+                  <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-2 flex items-center text-slate-400 text-xs font-bold">S/</span>
+                    <input type="number" id="inpIngresoNetoBoleta" value="9498.47" step="0.01" class="input-cell pl-6 text-xs font-bold">
+                  </div>
+                </div>
+                <div>
+                  <label class="field-label">Compra deuda boleta (K17)</label>
+                  <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-2 flex items-center text-slate-400 text-xs font-bold">S/</span>
+                    <input type="number" id="inpCompraDeudaBoleta" value="0.00" step="0.01" class="input-cell pl-6 text-xs font-bold">
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <!-- 3. Desglose de Ingresos de Boleta -->
+          <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200 animate-card">
+            <div class="flex justify-between items-center mb-2 pb-1 border-b border-slate-100">
+              <h3 class="text-xs font-black text-[#002A8F] uppercase tracking-wider flex items-center">
+                <i class="fa-solid fa-coins text-amber-500 mr-1.5"></i> Desglose de Ingresos (Boleta)
+              </h3>
+              <span class="text-[9px] text-slate-400 font-medium">*Col 2 pondera al 50%</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 text-[11px]">
+              <!-- Columna 1 (Fijos / Bonos) -->
+              <div class="space-y-1.5">
+                <div>
+                  <label class="field-label" title="9210 - Bono Productividad">9210 - Bono Prod.</label>
+                  <input type="number" id="inp_D20" value="910.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label" title="9212 - Bono Especialidad">9212 - Bono Especialidad.</label>
+                  <input type="number" id="inp_D21" value="615.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label" title="9217 - Bonif por Vacaciones">9217 - Bonif. Vacaciones.</label>
+                  <input type="number" id="inp_D22" value="0.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label" title="9230 - Devoluc Tardanza">9230 - Devol. Tardanza.</label>
+                  <input type="number" id="inp_D23" value="0.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label" title="9362 - Bono NR">9362 - Bono NoRemunerativo</label>
+                  <input type="number" id="inp_D24" value="302.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label">Otros</label>
+                  <input type="number" id="inp_D25" value="0.00" step="0.01" class="input-cell font-medium">
+                </div>
+              </div>
+
+              <!-- Columna 2 (Variables al 50%) -->
+              <div class="space-y-1.5 bg-amber-50/40 p-1 rounded-lg border border-amber-100">
+                <div>
+                  <label class="field-label text-amber-900" title="9260 - Horas Ext 25%">9260 - HorasExtras 25% (50%)</label>
+                  <input type="number" id="inp_G20" value="0.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label text-amber-900" title="9261 - Horas Ext 35%">9261 - HorasExtras 35% (50%)</label>
+                  <input type="number" id="inp_G21" value="0.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label text-amber-900" title="9236 - Guardias Ret">9236 - Guard. Ret (50%)</label>
+                  <input type="number" id="inp_G22" value="1476.48" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label text-amber-900" title="9237 - Guardias">9237 - Guardias (50%)</label>
+                  <input type="number" id="inp_G23" value="0.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label text-amber-900" title="9240 - Jef. De Guard">9240 - Jef. Guard (50%)</label>
+                  <input type="number" id="inp_G24" value="0.00" step="0.01" class="input-cell font-medium">
+                </div>
+              </div>
+
+              <!-- Columna 3 -->
+              <div class="space-y-1.5">
+                <div>
+                  <label class="field-label" title="9250 - PCT">9250 - PCT</label>
+                  <input type="number" id="inp_K20" value="0.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label" title="9R60 - R H extras">9R60 - R H extras</label>
+                  <input type="number" id="inp_K21" value="615.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label" title="9R37 - R Guardias">9R37 - R Guardias</label>
+                  <input type="number" id="inp_K22" value="0.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label" title="Aguil. Nav. Dic">Aguil. Nav. Dic</label>
+                  <input type="number" id="inp_K23" value="0.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label" title="9265 - Subsidio">9265 - Subsidio</label>
+                  <input type="number" id="inp_K24" value="0.00" step="0.01" class="input-cell font-medium">
+                </div>
+                <div>
+                  <label class="field-label" title="9233 - Domingos">9233 - Domingos</label>
+                  <input type="number" id="inp_K25" value="0.00" step="0.01" class="input-cell font-medium">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Descuentos de Ley, Sindicales e Institucionales -->
+          <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200 animate-card">
+            <h3 class="text-xs font-black text-red-600 uppercase tracking-wider mb-2 pb-1 border-b border-slate-100 flex items-center">
+              <i class="fa-solid fa-scale-unbalanced text-red-500 mr-1.5"></i> Descuentos de Ley y Planilla
+            </h3>
+
+            <div class="space-y-2 text-xs">
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="field-label">D Imp Renta 5ta / 4ta (K29)</label>
+                  <input type="number" id="inp_K29" value="1548.52" step="0.01" class="input-cell font-bold text-red-700">
+                </div>
+                <div>
+                  <label class="field-label">Desc. SNP / AFP (K30)</label>
+                  <input type="number" id="inp_K30" value="985.49" step="0.01" class="input-cell font-bold text-red-700">
+                </div>
+              </div>
+
+              <!-- Descuentos Sindicales -->
+              <details class="group bg-slate-50 p-2 rounded-xl border border-slate-200">
+                <summary class="cursor-pointer font-bold text-[11px] text-[#002A8F] flex justify-between items-center select-none">
+                  <span><i class="fa-solid fa-users mr-1"></i> Descuentos Sindicales (CUT, Besfa, SUTAD...)</span>
+                  <span class="text-xs group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div class="grid grid-cols-3 gap-1.5 mt-2 pt-2 border-t border-slate-200 text-[10px]">
+                  <div>
+                    <label class="field-label">8389 - D Fed CUT</label>
+                    <input type="number" id="inp_D34" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8405 - SUCUT</label>
+                    <input type="number" id="inp_D35" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8395 - Sind Nac Tec Med</label>
+                    <input type="number" id="inp_D36" value="0" step="0.01" class="input-cell">
+                  </div>
+                  <div>
+                    <label class="field-label">8399 - Sind Enferm</label>
+                    <input type="number" id="inp_G34" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8040 -D.Besfa-BER</label>
+                    <input type="number" id="inp_G35" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8401 -S.N Trab Soc</label>
+                    <input type="number" id="inp_G36" value="0" step="0.01" class="input-cell">
+                  </div>
+                  <div>
+                    <label class="field-label">8380 - SUTAD</label>
+                    <input type="number" id="inp_K34" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8361 - Col Obstetrices</label>
+                    <input type="number" id="inp_K35" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1 text-slate-800 font-bold">OTROS (K36)</label>
+                    <input type="number" id="inp_K36" value="0.00" step="0.01" class="input-cell font-bold">
+                  </div>
+                </div>
+              </details>
+
+              <!-- Descuentos de Terceros y Colegios -->
+              <details class="group bg-slate-50 p-2 rounded-xl border border-slate-200">
+                <summary class="cursor-pointer font-bold text-[11px] text-[#002A8F] flex justify-between items-center select-none">
+                  <span><i class="fa-solid fa-hand-holding-dollar mr-1"></i> Descuentos de Terceros (Colegios, SINESS, SINAMSSOP...)</span>
+                  <span class="text-xs group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div class="grid grid-cols-3 gap-1.5 mt-2 pt-2 border-t border-slate-200 text-[10px]">
+                  <div>
+                    <label class="field-label">8400 - Cuota Ex Fed.CUT</label>
+                    <input type="number" id="inp_D40" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8359 -D.Col Médico</label>
+                    <input type="number" id="inp_D41" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8362 -D.Col Nutricionista.</label>
+                    <input type="number" id="inp_D42" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8393 -Cuota Ex.Siness</label>
+                    <input type="number" id="inp_D43" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8303 - Aport FIA</label>
+                    <input type="number" id="inp_D44" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8358 -Seguro Médico</label>
+                    <input type="number" id="inp_D45" value="0" step="0.01" class="input-cell">
+                  </div>
+                  <div>
+                    <label class="field-label">8363 - Col Enf</label>
+                    <input type="number" id="inp_G40" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8364 -Colegio Psicol</label>
+                    <input type="number" id="inp_G41" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8388 - SINABIOSS</label>
+                    <input type="number" id="inp_G42" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8402 - Sind Nac Obs</label>
+                    <input type="number" id="inp_G43" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8360 - Col Tec Med</label>
+                    <input type="number" id="inp_G44" value="0" step="0.01" class="input-cell">
+                  </div>
+                  <div>
+                    <label class="field-label">8407 - SINAMSSOP</label>
+                    <input type="number" id="inp_K40" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8404 - SUTAES</label>
+                    <input type="number" id="inp_K41" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8396 -Sind Unico Nut</label>
+                    <input type="number" id="inp_K42" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8308 - FAMENSALUD</label>
+                    <input type="number" id="inp_K43" value="0" step="0.01" class="input-cell">
+                    <label class="field-label mt-1">8311 -Asoc ASEIPSS</label>
+                    <input type="number" id="inp_K44" value="0" step="0.01" class="input-cell">
+                  </div>
+                </div>
+              </details>
+
+              <!-- DESCUENTOS INSTITUCIONALES (30 CASILLEROS OFICIALES) -->
+              <details class="group bg-blue-50/50 p-2.5 rounded-xl border border-blue-200" open>
+                <summary class="cursor-pointer font-bold text-[11px] text-[#002A8F] flex justify-between items-center select-none">
+                  <span><i class="fa-solid fa-building-user text-blue-700 mr-1"></i> Descuentos Institucionales (30 Casilleros Oficiales)</span>
+                  <span class="text-xs group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                
+                <div class="grid grid-cols-3 gap-2 mt-2 pt-2 border-t border-blue-200 text-[10px]">
+                  <!-- Columna 1 Institucional -->
+                  <div class="space-y-1">
+                    <div><label class="field-label">8265 - Subsidio</label><input type="number" id="inp_D49" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8249 -D.Rem Unica</label><input type="number" id="inp_D50" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8210 -D.Bono Prod</label><input type="number" id="inp_D51" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">D. R. REU</label><input type="number" id="inp_D52" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8211 - BP Econ Alta Resp</label><input type="number" id="inp_D53" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8212 - DB Espe</label><input type="number" id="inp_D54" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8215 - Escolaridad</label><input type="number" id="inp_D55" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8217 - D.Bonif Vac</label><input type="number" id="inp_D56" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8219 -DBZ M Desarr</label><input type="number" id="inp_D57" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8221 -D.Dif En Plaza Bonif</label><input type="number" id="inp_D58" value="0" step="0.01" class="input-cell"></div>
+                  </div>
+
+                  <!-- Columna 2 Institucional -->
+                  <div class="space-y-1">
+                    <div><label class="field-label">8223 -D.Dif En P R</label><input type="number" id="inp_G49" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8224 -D.CTS</label><input type="number" id="inp_G50" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8226 - D Faltas</label><input type="number" id="inp_G51" value="0" step="0.01" class="input-cell"></div>
+                    <div>
+                      <label class="field-label">8072 - D Falta (G52)</label>
+                      <input type="number" id="inp_G52" value="0" step="0.01" class="input-cell font-bold text-slate-800 border-blue-300 bg-white">
+                    </div>
+                    <div><label class="field-label">8228 -D Perm Part</label><input type="number" id="inp_G53" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8229 -DS.G Sepelio</label><input type="number" id="inp_G54" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8233 -D.D y Feriados</label><input type="number" id="inp_G55" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8234 -DEG Méd>50</label><input type="number" id="inp_G56" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8237 -D Guardias</label><input type="number" id="inp_G57" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8238 -D G Julio-Dic</label><input type="number" id="inp_G58" value="0" step="0.01" class="input-cell"></div>
+                    <div>
+                      <label class="field-label text-blue-900 font-bold">DIVERSOS (G59)</label>
+                      <input type="number" id="inp_G59" value="0" step="0.01" class="input-cell font-bold border-blue-300 bg-white">
+                    </div>
+                  </div>
+
+                  <!-- Columna 3 Institucional -->
+                  <div class="space-y-1">
+                    <div><label class="field-label">8239 -DHE ProgEsp</label><input type="number" id="inp_K49" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8243 -D.RPCT-CAS</label><input type="number" id="inp_K50" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8244 -DA.Fam DL 728</label><input type="number" id="inp_K51" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8249 -D.Rem Única</label><input type="number" id="inp_K52" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8250 - D PCT</label><input type="number" id="inp_K53" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8260 - DH Extras 25%</label><input type="number" id="inp_K54" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8261 - DH Extras 35%</label><input type="number" id="inp_K55" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8265 -D.Subsidio</label><input type="number" id="inp_K56" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8408 -D.Fondo fall</label><input type="number" id="inp_K57" value="0" step="0.01" class="input-cell"></div>
+                    <div><label class="field-label">8388 -D Min.Tardanza</label><input type="number" id="inp_K58" value="0" step="0.01" class="input-cell"></div>
+                    <div>
+                      <label class="field-label">8058 - D.Min Tardanza. (K59)</label>
+                      <input type="number" id="inp_K59" value="0.00" step="0.01" class="input-cell font-bold text-slate-800 border-blue-300 bg-white">
+                    </div>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+
         </div>
 
-        <div class="bg-blue-50 p-3 rounded-lg border border-blue-200 text-brand-navy space-y-1">
-          <div class="font-bold">Resumiendo la jugada:</div>
-          <ul class="list-disc list-inside pl-1 space-y-1 text-xs">
-            <li>El saldo viejo de <strong>S/ 45,972.00</strong> se borra y entra <strong>S/ 4,000.00</strong>.</li>
-            <li>La cuota vieja no BCP de <strong>S/ 893.00</strong> se borra y entra <strong>S/ 77.70</strong>.</li>
-            <li>Con este doble ajuste, el CEM y endeudamiento quedan cuadrados con la información 100% real del cliente.</li>
-          </ul>
+        <!-- ================= COLUMNA DERECHA: CRÉDITO, RESULTADOS Y SBS ================= -->
+        <div class="lg:col-span-7 space-y-4">
+          
+          <!-- 1. Dictamen de Calificación Oficial -->
+          <div id="cardResultado" class="p-4 rounded-2xl shadow-md border flex flex-col sm:flex-row justify-between items-center gap-4 transition-all duration-300 glow-califica animate-card">
+            <div>
+              <div class="text-[10px] uppercase tracking-wider font-extrabold opacity-80" id="subResultado">Dictamen Convenio ESSALUD</div>
+              <div class="text-3xl font-black mt-0.5 tracking-tight" id="txtResultado">CALIFICA</div>
+              <p class="text-xs mt-0.5 max-w-md font-medium" id="detResultado">El servidor cuenta con margen disponible en boleta y holgura en el sistema financiero.</p>
+              
+              <div class="mt-2.5">
+                <button onclick="abrirModalCronograma()" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#002A8F] text-white shadow hover:bg-blue-900 transition flex items-center gap-1.5">
+                  <i class="fa-solid fa-table-list text-amber-400"></i> Ver Tabla de Amortización Completa
+                </button>
+              </div>
+            </div>
+
+            <div class="flex gap-2 text-right w-full sm:w-auto justify-end">
+              <div class="bg-white/95 backdrop-blur-sm p-2.5 rounded-xl border border-slate-200 shadow-sm flex-1 sm:flex-initial">
+                <span class="text-[9px] text-slate-500 uppercase font-bold block">Neto Disponible</span>
+                <span id="resNetoDisp" class="text-sm sm:text-base font-black text-slate-800">S/ 2,773.29</span>
+              </div>
+              <div class="bg-white/95 backdrop-blur-sm p-2.5 rounded-xl border border-blue-200 shadow-sm flex-1 sm:flex-initial">
+                <span class="text-[9px] text-[#002A8F] uppercase font-bold block">Cuota Mensual</span>
+                <span id="resCuota" class="text-sm sm:text-base font-black text-[#002A8F]">S/ 2,771.74</span>
+              </div>
+              <div class="bg-white/95 backdrop-blur-sm p-2.5 rounded-xl border border-slate-200 shadow-sm flex-1 sm:flex-initial">
+                <span class="text-[9px] text-slate-500 uppercase font-bold block">% Endeudamiento</span>
+                <span id="resEndeudamiento" class="text-sm sm:text-base font-black text-amber-700">27.20%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Capacidad Financiera (K63 y K65) -->
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+              <span class="text-slate-500 font-bold block text-[10px] uppercase">Total Ingreso Neto (K63)</span>
+              <span id="lblTotalIngresoNeto" class="text-base font-black text-slate-800">S/ 6,933.23</span>
+            </div>
+            <div class="bg-white p-3 rounded-xl border border-blue-200 shadow-sm bg-blue-50/20">
+              <span class="text-[#002A8F] font-bold block text-[10px] uppercase">Primer Cálculo Neto Disp (K65)</span>
+              <span id="lblPrimerNetoDisp" class="text-base font-black text-[#002A8F]">S/ 2,773.29</span>
+            </div>
+          </div>
+
+          <!-- 3. Parámetros del Crédito Solicitado -->
+          <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 animate-card">
+            <h3 class="text-xs font-black text-[#002A8F] uppercase tracking-wider mb-2.5 flex items-center">
+              <i class="fa-solid fa-hand-holding-dollar text-[#FF7800] mr-1.5 text-base"></i> Datos del Crédito Solicitado
+            </h3>
+
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-xs">
+              <div>
+                <label class="field-label">Monto Solicitado</label>
+                <input type="number" id="inpMonto" value="144400" step="100" class="input-cell font-bold text-[#002A8F] border-blue-200 bg-blue-50/30">
+              </div>
+
+              <div>
+                <label class="field-label">N° Cuotas (Meses)</label>
+                <select id="selPlazo" class="input-cell font-bold">
+                  <option value="12">12 meses</option>
+                  <option value="24">24 meses</option>
+                  <option value="36">36 meses</option>
+                  <option value="48">48 meses</option>
+                  <option value="60">60 meses</option>
+                  <option value="72" selected>72 meses</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="field-label">TEA Oficial (%)</label>
+                <input type="number" id="inpTEA" value="9.80" step="0.01" class="input-cell font-bold">
+              </div>
+
+              <div>
+                <label class="field-label">Fecha Desembolso</label>
+                <input type="date" id="inpFechaDesembolso" value="2026-10-12" class="input-cell">
+              </div>
+
+              <div>
+                <label class="field-label">Desgravamen</label>
+                <select id="selDesgravamen" class="input-cell text-xs">
+                  <option value="Sin retorno" selected>Sin Retorno (0.0767%)</option>
+                  <option value="Con retorno">Con Retorno (0.0997%)</option>
+                  <option value="Endosado">Endosado (0.00%)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 mt-3 pt-2.5 border-t border-slate-100 text-[11px] text-slate-500">
+              <div><strong>Primer Vencimiento:</strong> <span id="lblPrimerVenc" class="text-slate-800 font-bold">15/12/2026</span></div>
+              <div><strong>Estado de Cuenta:</strong> <span class="text-slate-800 font-bold">Virtual</span></div>
+              <div><strong>Moneda:</strong> <span class="text-slate-800 font-bold">Soles (S/)</span></div>
+            </div>
+          </div>
+
+          <!-- 4. Resumen de Carga Crediticia (SBS / BCP) -->
+          <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 animate-card">
+            <div class="flex justify-between items-center mb-2.5">
+              <h3 class="text-xs font-black text-[#002A8F] uppercase tracking-wider flex items-center">
+                <i class="fa-solid fa-chart-pie text-indigo-600 mr-1.5 text-base"></i> Resumen de Carga Crediticia (SBS / BCP)
+              </h3>
+              
+              <div class="flex items-center gap-2 text-xs">
+                <label class="font-bold text-slate-600">Segmento:</label>
+                <select id="selSegmento" class="border border-slate-300 rounded-lg px-2 py-0.5 font-bold text-[#002A8F] bg-slate-50 focus:ring-1 focus:ring-[#002A8F]">
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E" selected>E</option>
+                  <option value="SS">SS</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto text-xs">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 text-[#002A8F] text-center font-bold border-y border-slate-200">
+                    <th class="p-2 text-left font-bold text-slate-800">Tipo de Crédito</th>
+                    <th class="p-2 w-24">Deuda cuota BCP</th>
+                    <th class="p-2 w-24">Deuda cuota no BCP</th>
+                    <th class="p-2 w-24">Saldo</th>
+                    <th class="p-2 w-24">Saldo Actualizado</th>
+                    <th class="p-2 w-24 text-right">Cuota Actualizada</th>
+                  </tr>
+                </thead>
+                <tbody id="tblDeudasBody"></tbody>
+              </table>
+            </div>
+
+            <!-- Cierre de Ratios SBS Oficiales -->
+            <div class="mt-3.5 pt-3 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+              <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 flex justify-between items-center">
+                <span class="font-bold text-slate-600">% Endeudamiento:</span>
+                <span id="lblPorcEndeudamiento" class="font-black text-slate-800 text-sm">27.20%</span>
+              </div>
+              <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 flex justify-between items-center">
+                <span class="font-bold text-slate-600">CEM (70%):</span>
+                <span id="lblCEM" class="font-black text-emerald-700 text-sm">S/ 4,000.30</span>
+              </div>
+              <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 flex justify-between items-center">
+                <span class="font-bold text-slate-600">Dictamen SBS:</span>
+                <span id="lblDictamenSBS" class="font-black text-emerald-600 text-sm">Continuar</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <p class="font-semibold text-emerald-700">
-          ¡Así de fácil y transparente! Mantenemos todo en orden sin inflar la carga del cliente.
-        </p>
-        <p class="italic text-slate-500 text-xs">
-          ¿Alguna duda con este doble movimiento? ¡Vamos a practicarlo! 💪
-        </p>
       </div>
 
-      <div class="mt-5 flex justify-end gap-2">
-        <button id="btnCopyFullModal" class="px-4 py-2 bg-brand-blue hover:bg-brand-navy text-white text-xs font-semibold rounded-lg shadow transition flex items-center gap-1.5">
-          <i class="fa-regular fa-copy"></i> Copiar Guión Completo
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 mt-12 py-5 px-4 text-center">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-slate-500">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+        <span class="font-semibold text-slate-700">Calculadora Convenio ESSALUD - BCP</span>
+        <span class="text-slate-400">• v3.2 Oficial + DarkMode</span>
+      </div>
+
+      <div class="bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 text-center sm:text-right">
+        <span class="text-slate-400 text-[10px] uppercase font-bold block tracking-wider">Arquitectura y Desarrollo:</span>
+        <span class="font-extrabold text-[#002A8F] text-xs">Luis Angel Garcia Cano (Lattis)</span>
+        <span class="text-slate-500 font-medium text-[11px] block">Analista Comercial - Back Office Senior</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODAL CRONOGRAMA DE PAGOS COMPLETO ================= -->
+  <div id="modalCronograma" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex justify-center items-center p-3 sm:p-5 hidden" onclick="cerrarModalCronogramaFondo(event)">
+    <div class="bg-white rounded-3xl max-w-5xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-blue-200 animate-card overflow-hidden" onclick="event.stopPropagation()">
+      
+      <!-- Encabezado Modal -->
+      <div class="p-4 sm:p-5 bg-gradient-to-r from-blue-900 via-indigo-900 to-sky-900 text-white flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center border border-white/20">
+            <i class="fa-solid fa-table-list text-amber-400 text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-black tracking-tight flex items-center gap-2">
+              Cronograma de Pagos - Convenio ESSALUD
+            </h3>
+            <p class="text-xs text-blue-200">Tabla de amortización detallada calculada según el modelo oficial BCP</p>
+          </div>
+        </div>
+
+        <button onclick="cerrarModalCronograma()" class="text-white/70 hover:text-white text-2xl p-1 rounded-lg transition leading-none">
+          <i class="fa-solid fa-circle-xmark"></i>
         </button>
-        <button id="btnCloseModalBtn" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold rounded-lg transition">
+      </div>
+
+      <!-- Resumen Métricas del Cronograma -->
+      <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs flex-shrink-0">
+        <div class="p-2 bg-white rounded-xl border border-slate-200">
+          <span class="text-slate-500 block text-[9px] uppercase font-bold">Monto del Préstamo</span>
+          <span id="lblCronoMonto" class="font-black text-[#002A8F] text-xs sm:text-sm">S/ 65,100.00</span>
+        </div>
+        <div class="p-2 bg-white rounded-xl border border-slate-200">
+          <span class="text-slate-500 block text-[9px] uppercase font-bold">Plazo / Cuotas</span>
+          <span id="lblCronoPlazo" class="font-black text-slate-800 text-xs sm:text-sm">72 meses</span>
+        </div>
+        <div class="p-2 bg-white rounded-xl border border-slate-200">
+          <span class="text-slate-500 block text-[9px] uppercase font-bold">Total Intereses</span>
+          <span id="lblCronoTotalInteres" class="font-black text-red-600 text-xs sm:text-sm">S/ 0.00</span>
+        </div>
+        <div class="p-2 bg-white rounded-xl border border-slate-200">
+          <span class="text-slate-500 block text-[9px] uppercase font-bold">Total Desgravamen</span>
+          <span id="lblCronoTotalDesg" class="font-black text-amber-700 text-xs sm:text-sm">S/ 0.00</span>
+        </div>
+        <div class="p-2 bg-blue-50/80 rounded-xl border border-blue-200 col-span-2 sm:col-span-1">
+          <span class="text-[#002A8F] block text-[9px] uppercase font-bold">Cuota Mensual Fija</span>
+          <span id="lblCronoCuotaFija" class="font-black text-[#002A8F] text-xs sm:text-sm">S/ 1,249.49</span>
+        </div>
+      </div>
+
+      <!-- Tabla Scrollable del Cronograma -->
+      <div class="overflow-y-auto overflow-x-auto flex-1 p-4 bg-white dark:bg-slate-800">
+        <table class="w-full text-xs text-left border-collapse" id="tblCronogramaCompleto">
+          <thead class="bg-slate-100 text-slate-700 uppercase tracking-wider sticky top-0 border-b border-slate-200 font-bold">
+            <tr>
+              <th class="p-2.5 text-center w-12">N°</th>
+              <th class="p-2.5 text-center">Fecha Venc.</th>
+              <th class="p-2.5 text-center">Días</th>
+              <th class="p-2.5 text-right">Saldo Inicial</th>
+              <th class="p-2.5 text-right text-red-700">Interés</th>
+              <th class="p-2.5 text-right text-amber-700">Desgravamen</th>
+              <th class="p-2.5 text-right text-emerald-700">Amortización</th>
+              <th class="p-2.5 text-right font-black text-[#002A8F]">Cuota Total</th>
+            </tr>
+          </thead>
+          <tbody id="tblCronogramaBody" class="divide-y divide-slate-100 font-mono"></tbody>
+        </table>
+      </div>
+
+      <!-- Pie del Modal -->
+      <div class="p-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center text-xs text-slate-500 flex-shrink-0">
+        <span>* No incluye ITF ni gastos por envío físico de estado de cuenta.</span>
+        <button onclick="cerrarModalCronograma()" class="px-5 py-1.5 rounded-full font-bold bg-slate-200 text-slate-700 hover:bg-slate-300 transition">
           Cerrar
         </button>
       </div>
+
     </div>
   </div>
 
-  <!-- MODAL: Quick Interactive Quiz -->
-  <div id="quizModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 relative border border-slate-200">
-      <button id="btnCloseQuiz" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
-        <i class="fa-solid fa-xmark"></i>
+  <!-- ================= ASISTENTE VIRTUAL "CAMARGUITO" ================= -->
+  <div class="fixed bottom-4 right-4 z-40 flex items-end gap-2.5 select-none" id="camarguitoContainer">
+    <div id="camarguitoBubble" class="camarguito-bubble bg-white p-3 rounded-2xl shadow-xl border border-blue-200 max-w-xs text-xs text-slate-700 animate-card relative hidden">
+      <div class="font-bold text-[#002A8F] flex items-center justify-between pb-1 border-b border-slate-100 mb-1.5">
+        <span class="flex items-center gap-1"><i class="fa-solid fa-sparkles text-amber-500"></i> Camarguito ESSALUD</span>
+        <button type="button" onclick="cerrarCamarguitoGlobo(event)" class="text-slate-400 hover:text-red-500 p-0.5 rounded transition">
+          <i class="fa-solid fa-xmark text-sm font-bold"></i>
+        </button>
+      </div>
+      <p id="camarguitoText" class="leading-relaxed font-medium text-slate-600">¡Hola! Recuerda que en ESSALUD el RCI es 40%, corte el día 30, vencimiento el 15 y el periodo de gracia es de 0 a 1.</p>
+      
+      <div class="mt-2 pt-1 border-t border-slate-100 flex justify-between items-center text-[10px] text-slate-400">
+        <span>Diseñado por Lattis</span>
+        <button type="button" onclick="cerrarCamarguitoGlobo(event)" class="text-blue-600 hover:underline font-semibold">Entendido</button>
+      </div>
+    </div>
+
+    <div onclick="clickAvatarCamarguito(event)" class="animate-mascot cursor-pointer group relative flex-shrink-0" title="Haz clic para ver la ayuda">
+      <div class="camarguito-ear-l"></div>
+      <div class="camarguito-ear-r"></div>
+      <div class="camarguito-avatar group-hover:scale-105 transition-transform duration-200">
+        <div class="camarguito-face">
+          <div class="camarguito-eyes"><div class="camarguito-eye"></div><div class="camarguito-eye"></div></div>
+          <div class="camarguito-nose"></div>
+          <div class="camarguito-cheeks"><div class="camarguito-cheek"></div><div class="camarguito-cheek"></div></div>
+          <div class="camarguito-teeth"></div>
+        </div>
+      </div>
+      <span class="absolute -top-1.5 -right-1 bg-[#FF7800] text-white text-[8px] font-black px-1.5 py-0.5 rounded-full border border-white shadow">ESSALUD</span>
+    </div>
+  </div>
+
+  <!-- Modal Consejos Camarguito -->
+  <div id="modalCamarguito" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex justify-center items-center p-4 hidden" onclick="cerrarModalFondo(event)">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-blue-100 animate-card relative" onclick="event.stopPropagation()">
+      <button onclick="toggleCamarguitoHelp()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-lg">
+        <i class="fa-solid fa-circle-xmark"></i>
       </button>
 
-      <div class="text-center mb-4">
-        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 text-2xl mb-2">
-          🎯
+      <div class="flex items-center gap-3 mb-4">
+        <div class="camarguito-avatar" style="width: 48px; height: 48px;">
+          <div class="camarguito-face" style="transform: scale(0.65);">
+            <div class="camarguito-eyes"><div class="camarguito-eye"></div><div class="camarguito-eye"></div></div>
+            <div class="camarguito-nose"></div>
+            <div class="camarguito-cheeks"><div class="camarguito-cheek"></div><div class="camarguito-cheek"></div></div>
+            <div class="camarguito-teeth"></div>
+          </div>
         </div>
-        <h3 class="text-base font-bold text-slate-800">Pregunta de Capacitación</h3>
-        <p class="text-xs text-slate-500">¿Qué reemplazos se realizan en el Crédito Efectivo?</p>
+        <div>
+          <h3 class="text-base font-extrabold text-[#002A8F]">Reglas de Evaluación ESSALUD</h3>
+          <p class="text-xs text-slate-500">Parámetros oficiales BCP para el convenio ESSALUD</p>
+        </div>
       </div>
 
-      <div class="space-y-2 mb-4">
-        <button onclick="handleQuizAnswer('wrong1')" class="quiz-btn w-full py-2.5 px-3 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-xs font-semibold text-slate-700 text-left transition flex justify-between items-center">
-          <span>A) Solo se cambia la cuota de 893 por 77.70, el saldo de 45,972 queda igual.</span>
-        </button>
-        <button onclick="handleQuizAnswer('correct')" class="quiz-btn w-full py-2.5 px-3 rounded-lg border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50 text-xs font-semibold text-slate-700 text-left transition flex justify-between items-center">
-          <span>B) El saldo 45,972 pasa a 4,000 y la cuota 893 pasa a 77.70.</span>
-        </button>
-        <button onclick="handleQuizAnswer('wrong2')" class="quiz-btn w-full py-2.5 px-3 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-xs font-semibold text-slate-700 text-left transition flex justify-between items-center">
-          <span>C) Se suman ambos saldos (45,972 + 4,000).</span>
-        </button>
+      <div class="space-y-3 text-xs text-slate-600">
+        <div class="p-3 bg-blue-50/70 rounded-xl border border-blue-100">
+          <strong class="text-[#002A8F] block mb-0.5"><i class="fa-solid fa-check-circle text-emerald-500 mr-1"></i> 1. Capacidad por Boleta (RCI 40%)</strong>
+          El RCI para ESSALUD es del <strong>40%</strong>. La cuota no debe superar el <strong>Primer cálculo de Ingreso Neto Disponible (K65)</strong>.
+        </div>
+        <div class="p-3 bg-orange-50/70 rounded-xl border border-orange-100">
+          <strong class="text-[#FF7800] block mb-0.5"><i class="fa-solid fa-chart-pie mr-1"></i> 2. Tope de Endeudamiento SBS (70%)</strong>
+          El ratio límite en el sistema SBS para ESSALUD es del <strong>70%</strong> con base en el Ingreso Neto de Boleta (K16). Si supera este valor, el estado será <em>"Sobre endeudado"</em>.
+        </div>
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+          <strong class="text-slate-700 block mb-0.5"><i class="fa-solid fa-calendar-days text-indigo-500 mr-1"></i> 3. Fechas y Periodo de Gracia (0 a 1)</strong>
+          El día de corte es el <strong>30</strong> y el día de vencimiento es el <strong>15</strong>. Si el desembolso es hasta el día 15, el <strong>PG es 1</strong>; si es posterior al día 15, el <strong>PG es 0</strong>.
+        </div>
       </div>
 
-      <div id="quizFeedback" class="hidden p-3 rounded-lg text-xs font-semibold text-center mb-2"></div>
+      <div class="mt-4 pt-3 border-t border-slate-100 text-center">
+        <button onclick="toggleCamarguitoHelp()" class="btn-bcp-orange text-white text-xs font-bold px-6 py-2.5 rounded-full shadow">
+          ¡Entendido!
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- Toast notification -->
-  <div id="toast" class="fixed bottom-5 right-5 bg-brand-navy text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow-xl border border-white/20 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-2 z-50">
-    <i class="fa-solid fa-circle-check text-emerald-400"></i>
-    <span id="toastMsg">Mensaje copiado correctamente</span>
-  </div>
-
+  <!-- ================= MOTOR FINANCIERO Y LÓGICA DE EXCEL ================= -->
   <script>
-    // Step configuration:
-    // Step 1: Detect/Highlight both old fields (893 cuota & 45,972 saldo)
-    // Step 2: Replace Saldo (45,972 -> 4,000)
-    // Step 3: Replace Cuota (893 -> 77.70)
-    // Step 4: Final consolidated state
-    let currentStep = 1;
-    const maxSteps = 4;
-    let autoPlayTimer = null;
+    (function () {
+      "use strict";
 
-    // UI Elements
-    const btnNextStep = document.getElementById('btnNextStep');
-    const btnPrevStep = document.getElementById('btnPrevStep');
-    const btnResetSimulation = document.getElementById('btnResetSimulation');
-    const btnAutoPlay = document.getElementById('btnAutoPlay');
-    const autoPlayLabel = document.getElementById('autoPlayLabel');
-    
-    const stepCounter = document.getElementById('stepCounter');
-    const stepTab1 = document.getElementById('stepTab1');
-    const stepTab2 = document.getElementById('stepTab2');
-    const stepTab3 = document.getElementById('stepTab3');
-    const stepTab4 = document.getElementById('stepTab4');
-    
-    const stepIcon = document.getElementById('stepIcon');
-    const stepTitle = document.getElementById('stepTitle');
-    const stepDescription = document.getElementById('stepDescription');
-    const stepTip = document.getElementById('stepTip');
-    const liveScriptText = document.getElementById('liveScriptText');
+      document.addEventListener("contextmenu", e => e.preventDefault());
+      document.addEventListener("keydown", e => {
+        if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && [85, 83].includes(e.keyCode))) {
+          e.preventDefault();
+          return false;
+        }
+      });
 
-    // Simulator Cells
-    const cellNoBcp = document.getElementById('cellNoBcp');
-    const valNoBcpText = document.getElementById('valNoBcpText');
-    const crossLineCuota = document.getElementById('crossLineCuota');
-    const badgeCuotaNew = document.getElementById('badgeCuotaNew');
+      // Factores de la tabla S83:X88 según segmento de riesgo
+      const FACTORES_SEGMENTO = Object.freeze({
+        "A":  { lnu: 0.003306, hip: 0.010, cef: 0.035, veh: 0.022, tc: 0.078 },
+        "B":  { lnu: 0.005306, hip: 0.010, cef: 0.037, veh: 0.023, tc: 0.082 },
+        "C":  { lnu: 0.006583, hip: 0.011, cef: 0.039, veh: 0.023, tc: 0.084 },
+        "D":  { lnu: 0.007139, hip: 0.011, cef: 0.041, veh: 0.023, tc: 0.087 },
+        "E":  { lnu: 0.007417, hip: 0.011, cef: 0.044, veh: 0.024, tc: 0.088 },
+        "SS": { lnu: 0.007417, hip: 0.011, cef: 0.044, veh: 0.024, tc: 0.088 }
+      });
 
-    const cellSaldo = document.getElementById('cellSaldo');
-    const valSaldoText = document.getElementById('valSaldoText');
-    const crossLineSaldo = document.getElementById('crossLineSaldo');
-    const badgeSaldoNew = document.getElementById('badgeSaldoNew');
+      const TIPOS_DEUDA = Object.freeze([
+        { id: "84", label: "Crédito Hipotecario", fixedFactor: 0.01 },
+        { id: "85", label: "Crédito Efectivo", fixedFactor: 0.044 },
+        { id: "86", label: "Crédito Vehicular", fixedFactor: 0.024 },
+        { id: "87", label: "Pyme", fixedFactor: 0.088 },
+        { id: "88", label: "Comercial", fixedFactor: 0.028 },
+        { id: "89", label: "Deuda Indirecta", fixedFactor: 0.000694 },
+        { id: "90", label: "Línea utilizada de tarjeta de Crédito", fixedFactor: 0.088 },
+        { id: "91", label: "Línea no utilizada", fixedFactor: 0.0065833922 }
+      ]);
 
-    const cellSaldoAct = document.getElementById('cellSaldoAct');
-    const cellCuotaAct = document.getElementById('cellCuotaAct');
-    const arrowSaldoTransfer = document.getElementById('arrowSaldoTransfer');
-    const arrowCuotaTransfer = document.getElementById('arrowCuotaTransfer');
-    const targetPointer = document.getElementById('targetPointer');
-    const pointerText = document.getElementById('pointerText');
+      const DESGRAVAMEN_MAP = Object.freeze({
+        "Sin retorno": 0.000767,
+        "Con retorno": 0.000997,
+        "Endosado": 0.0
+      });
 
-    const badgeOldSaldo = document.getElementById('badgeOldSaldo');
-    const badgeNewSaldo = document.getElementById('badgeNewSaldo');
-    const badgeOldCuota = document.getElementById('badgeOldCuota');
-    const badgeNewCuota = document.getElementById('badgeNewCuota');
-    const cardSaldoBox = document.getElementById('cardSaldoBox');
-    const cardCuotaBox = document.getElementById('cardCuotaBox');
+      let camarguitoGloboCerrado = true;
+      let cronogramaFilasGeneradas = [];
 
-    // Step configuration data
-    const stepsConfig = {
-      1: {
-        title: "¡Ojo al dato, equipo! Revisemos la fila",
-        icon: "👀",
-        desc: 'Miren la fila de <strong class="text-brand-blue">"Crédito Efectivo"</strong>. Tenemos un <strong>Saldo de S/ 45,972.00</strong> y una <strong>Cuota no BCP de S/ 893.00</strong>. ¡Ambos números antiguos van a cambiar!',
-        tip: "Identifica los dos valores que están inflando la carga anterior del cliente.",
-        script: '"A ver equipo, observen Crédito Efectivo: tenemos 45,972 de saldo y 893 de cuota. ¡Olvídense de ambos números, vamos a actualizarlos!"',
-        btnText: "Paso 2: Reemplazar Saldo (45,972 ➔ 4,000)"
-      },
-      2: {
-        title: "Paso 1: Reemplazo del Saldo Capital",
-        icon: "🔄",
-        desc: 'El saldo anterior de <strong class="text-red-600 line-through">S/ 45,972.00</strong> desaparece. En su lugar colocamos el <strong class="text-emerald-700 font-bold">Saldo Actualizado de S/ 4,000.00</strong>.',
-        tip: "El saldo real a consolidar es únicamente de 4,000 soles.",
-        script: '"Primer movimiento clave: Esos 45,972 soles de saldo se van. Colocamos en su reemplazo el Saldo Actualizado de 4,000 soles."',
-        btnText: "Paso 3: Reemplazar Cuota (893 ➔ 77.70)"
-      },
-      3: {
-        title: "Paso 2: Reemplazo de la Cuota no BCP",
-        icon: "✨",
-        desc: 'La cuota anterior no BCP de <strong class="text-red-600 line-through">S/ 893.00</strong> también desaparece. En su lugar colocamos la <strong class="text-emerald-700 font-bold">Cuota Actualizada de S/ 77.70</strong>.',
-        tip: "La cuota del cliente baja drásticamente de 893.00 a solo 77.70 soles.",
-        script: '"Segundo movimiento: La cuota no BCP de 893 soles desaparece y entra la cuota actualizada de 77.70 soles calculada por el sistema."',
-        btnText: "Paso 4: Ver Resultado Consolidado"
-      },
-      4: {
-        title: "¡Doble Reemplazo Completado con Éxito!",
-        icon: "✅",
-        desc: '¡Excelente! Tenemos el <strong class="text-emerald-700">Saldo en S/ 4,000.00</strong> y la <strong class="text-emerald-700">Cuota en S/ 77.70</strong>. El cliente queda al día con su capacidad real.',
-        tip: "Carga crediticia optimizada y lista para continuar con el dictamen.",
-        script: '"¡Listo equipo! Saldo en 4,000 y cuota en 77.70. Cero duplicidades y el cliente con su información 100% al día. ¡A practicarlo!"',
-        btnText: "Reiniciar Simulación"
-      }
-    };
-
-    function updateStepView() {
-      stepCounter.textContent = `Paso ${currentStep} de ${maxSteps}`;
-      const data = stepsConfig[currentStep];
-
-      stepTitle.textContent = data.title;
-      stepIcon.textContent = data.icon;
-      stepDescription.innerHTML = data.desc;
-      stepTip.innerHTML = `<i class="fa-solid fa-lightbulb text-amber-500 text-sm"></i> <span>${data.tip}</span>`;
-      liveScriptText.textContent = data.script;
-      
-      btnNextStep.querySelector('span').textContent = data.btnText;
-      btnPrevStep.disabled = (currentStep === 1);
-
-      // Tab pills
-      stepTab1.className = `h-2 rounded-full transition-all duration-300 ${currentStep >= 1 ? 'bg-brand-orange' : 'bg-slate-200'}`;
-      stepTab2.className = `h-2 rounded-full transition-all duration-300 ${currentStep >= 2 ? 'bg-brand-orange' : 'bg-slate-200'}`;
-      stepTab3.className = `h-2 rounded-full transition-all duration-300 ${currentStep >= 3 ? 'bg-brand-orange' : 'bg-slate-200'}`;
-      stepTab4.className = `h-2 rounded-full transition-all duration-300 ${currentStep === 4 ? 'bg-emerald-500' : 'bg-slate-200'}`;
-
-      // Reset base cell visuals
-      cellSaldo.className = "col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono text-slate-700 relative cell-transition";
-      cellNoBcp.className = "col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono font-medium relative cell-transition";
-      cellSaldoAct.className = "col-span-2 table-cell-custom bg-white flex items-center justify-between px-2 font-mono font-semibold text-brand-blue relative cell-transition";
-      cellCuotaAct.className = "col-span-1 text-right pr-1 font-mono font-bold text-slate-800 flex items-center justify-end gap-1 relative cell-transition";
-
-      crossLineSaldo.classList.add('hidden');
-      crossLineCuota.classList.add('hidden');
-      badgeSaldoNew.classList.add('hidden');
-      badgeCuotaNew.classList.add('hidden');
-      arrowSaldoTransfer.classList.add('hidden');
-      arrowCuotaTransfer.classList.add('hidden');
-      targetPointer.classList.add('hidden');
-      targetPointer.classList.remove('flex');
-
-      // Update comparison cards on left panel
-      cardSaldoBox.className = "p-2.5 rounded-lg border bg-slate-50 border-slate-200 transition-all";
-      cardCuotaBox.className = "p-2.5 rounded-lg border bg-slate-50 border-slate-200 transition-all";
-
-      if (currentStep === 1) {
-        // Step 1: Initial state, highlights on old values
-        valSaldoText.textContent = "45,972.00";
-        valSaldoText.className = "font-bold text-slate-800";
-        valNoBcpText.textContent = "893.00";
-        valNoBcpText.className = "font-bold text-slate-800";
-
-        cellSaldo.classList.add('ring-2', 'ring-amber-400', 'bg-amber-50');
-        cellNoBcp.classList.add('ring-2', 'ring-amber-400', 'bg-amber-50');
-        targetPointer.classList.remove('hidden');
-        targetPointer.classList.add('flex');
-        pointerText.textContent = "Revisar";
-      } 
-      else if (currentStep === 2) {
-        // Step 2: Saldo Replaced (45,972 -> 4,000)
-        valSaldoText.textContent = "4,000.00";
-        valSaldoText.className = "font-bold text-emerald-700";
-        badgeSaldoNew.classList.remove('hidden');
-        cellSaldo.classList.add('ring-4', 'ring-emerald-500', 'bg-emerald-50');
+      window.toggleDarkMode = function() {
+        document.documentElement.classList.toggle('dark');
+        const isDark = document.documentElement.classList.contains('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
         
-        // Still keep old Cuota for contrast
-        valNoBcpText.textContent = "893.00";
-        valNoBcpText.className = "font-bold text-red-600";
-        crossLineCuota.classList.remove('hidden');
-        cellNoBcp.classList.add('ring-2', 'ring-red-300', 'bg-red-50');
+        const icon = document.getElementById('darkModeIcon');
+        if(isDark) {
+          icon.classList.remove('fa-moon');
+          icon.classList.add('fa-sun');
+          icon.classList.replace('text-slate-600', 'text-amber-400');
+        } else {
+          icon.classList.remove('fa-sun');
+          icon.classList.add('fa-moon');
+          icon.classList.replace('text-amber-400', 'text-slate-600');
+        }
+      };
 
-        cellSaldoAct.classList.add('ring-2', 'ring-emerald-400', 'bg-emerald-50');
-        arrowSaldoTransfer.classList.remove('hidden');
+      document.addEventListener("DOMContentLoaded", () => {
+        // Init theme
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+            setTimeout(() => {
+                const icon = document.getElementById('darkModeIcon');
+                if(icon) {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                    icon.classList.replace('text-amber-400', 'text-slate-600');
+                }
+            }, 0);
+        }
 
-        cardSaldoBox.className = "p-2.5 rounded-lg border bg-emerald-50 border-emerald-300 shadow-sm";
-      }
-      else if (currentStep === 3) {
-        // Step 3: Cuota Replaced (893 -> 77.70)
-        valSaldoText.textContent = "4,000.00";
-        valSaldoText.className = "font-bold text-emerald-700";
-        badgeSaldoNew.classList.remove('hidden');
-        cellSaldo.classList.add('bg-emerald-50/70');
+        initDeudasTable();
+        vincularEventos();
 
-        valNoBcpText.textContent = "77.70";
-        valNoBcpText.className = "font-bold text-emerald-700";
-        badgeCuotaNew.classList.remove('hidden');
-        cellNoBcp.classList.add('ring-4', 'ring-emerald-500', 'bg-emerald-50');
+        // Cargar valores iniciales simulados o del form
+        document.getElementById("inp_G90").value = "1629.99";
+        document.getElementById("inp_I90").value = "20837.79";
+        document.getElementById("inp_E91").value = "0";
+        document.getElementById("inp_G91").value = "954.06";
+        document.getElementById("inp_I91").value = "144919.87";
 
-        cellCuotaAct.classList.add('text-emerald-700', 'scale-110');
-        arrowCuotaTransfer.classList.remove('hidden');
+        recalcular();
+      });
 
-        cardSaldoBox.className = "p-2.5 rounded-lg border bg-emerald-50 border-emerald-300";
-        cardCuotaBox.className = "p-2.5 rounded-lg border bg-emerald-50 border-emerald-300 shadow-sm";
-      }
-      else if (currentStep === 4) {
-        // Step 4: Final Consolidated Screen
-        valSaldoText.textContent = "4,000.00";
-        valSaldoText.className = "font-extrabold text-emerald-700";
-        badgeSaldoNew.classList.remove('hidden');
-        cellSaldo.classList.add('bg-emerald-50', 'border-emerald-500');
-
-        valNoBcpText.textContent = "77.70";
-        valNoBcpText.className = "font-extrabold text-emerald-700";
-        badgeCuotaNew.classList.remove('hidden');
-        cellNoBcp.classList.add('bg-emerald-50', 'border-emerald-500');
-
-        cardSaldoBox.className = "p-2.5 rounded-lg border bg-emerald-100/70 border-emerald-400";
-        cardCuotaBox.className = "p-2.5 rounded-lg border bg-emerald-100/70 border-emerald-400";
-      }
-    }
-
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toastMsg');
-      toastMsg.textContent = message;
-      toast.classList.remove('translate-y-20', 'opacity-0');
-      toast.classList.add('translate-y-0', 'opacity-100');
-      setTimeout(() => {
-        toast.classList.add('translate-y-20', 'opacity-0');
-        toast.classList.remove('translate-y-0', 'opacity-100');
-      }, 2500);
-    }
-
-    function copyToClipboard(text) {
-      const tempInput = document.createElement("textarea");
-      tempInput.value = text;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand("copy");
-      document.body.removeChild(tempInput);
-      showToast("Texto copiado al portapapeles correctamente");
-    }
-
-    // Step button listeners
-    btnNextStep.addEventListener('click', () => {
-      if (currentStep < maxSteps) {
-        currentStep++;
-      } else {
-        currentStep = 1;
-      }
-      updateStepView();
-    });
-
-    btnPrevStep.addEventListener('click', () => {
-      if (currentStep > 1) {
-        currentStep--;
-        updateStepView();
-      }
-    });
-
-    btnResetSimulation.addEventListener('click', () => {
-      stopAutoPlay();
-      currentStep = 1;
-      updateStepView();
-      showToast("Demostración reiniciada");
-    });
-
-    // Auto Play Demo feature
-    function stopAutoPlay() {
-      if (autoPlayTimer) {
-        clearInterval(autoPlayTimer);
-        autoPlayTimer = null;
-        autoPlayLabel.textContent = "Reproducir Demo";
-        btnAutoPlay.classList.replace('bg-rose-600', 'bg-indigo-600');
-        btnAutoPlay.classList.replace('hover:bg-rose-700', 'hover:bg-indigo-700');
-      }
-    }
-
-    btnAutoPlay.addEventListener('click', () => {
-      if (autoPlayTimer) {
-        stopAutoPlay();
-      } else {
-        autoPlayLabel.textContent = "Detener Demo";
-        btnAutoPlay.classList.replace('bg-indigo-600', 'bg-rose-600');
-        btnAutoPlay.classList.replace('hover:bg-indigo-700', 'hover:bg-rose-700');
-        
-        autoPlayTimer = setInterval(() => {
-          if (currentStep < maxSteps) {
-            currentStep++;
-          } else {
-            currentStep = 1;
-          }
-          updateStepView();
-        }, 3200);
-      }
-    });
-
-    // Modal Events
-    const speechModal = document.getElementById('speechModal');
-    const btnSpeechModal = document.getElementById('btnSpeechModal');
-    const btnCloseModal = document.getElementById('btnCloseModal');
-    const btnCloseModalBtn = document.getElementById('btnCloseModalBtn');
-    const btnCopyFullModal = document.getElementById('btnCopyFullModal');
-    const btnCopyQuickSpeech = document.getElementById('btnCopyQuickSpeech');
-
-    btnSpeechModal.addEventListener('click', () => speechModal.classList.remove('hidden'));
-    btnCloseModal.addEventListener('click', () => speechModal.classList.add('hidden'));
-    btnCloseModalBtn.addEventListener('click', () => speechModal.classList.add('hidden'));
-
-    btnCopyQuickSpeech.addEventListener('click', () => {
-      copyToClipboard(liveScriptText.innerText);
-    });
-
-    btnCopyFullModal.addEventListener('click', () => {
-      const fullSpeech = `🛑 ¡Ojo al dato, equipo! Vamos a hacer un cambio importante para nuestro cliente.
-
-A ver, miren esta fila de "Crédito Efectivo" que les estoy mostrando en pantalla. Tiene dos datos antiguos que debemos actualizar por completo:
-
-1. El Saldo anterior: ¿Ven esos S/ 45,972.00? ¡Ese monto ya no va! En su lugar colocamos el nuevo Saldo Actualizado de S/ 4,000.00.
-2. La Deuda cuota no BCP: ¿Ven los S/ 893.00? ¡También desaparecen de nuestro mapa! En su lugar colocamos exactamente la cuota que calculó el sistema: S/ 77.70.
-
-Resumiendo la jugada:
-- El saldo viejo de S/ 45,972.00 se borra y entra S/ 4,000.00.
-- La cuota vieja no BCP de S/ 893.00 se borra y entra S/ 77.70.
-- Con este doble ajuste, el CEM y endeudamiento quedan cuadrados con la información 100% real del cliente.
-
-¡Así de fácil y transparente! Mantenemos todo en orden sin inflar la carga del cliente.
-¿Alguna duda con este doble movimiento? ¡Vamos a practicarlo! 💪`;
-      copyToClipboard(fullSpeech);
-    });
-
-    // Quiz logic
-    const quizModal = document.getElementById('quizModal');
-    const btnQuizMode = document.getElementById('btnQuizMode');
-    const btnCloseQuiz = document.getElementById('btnCloseQuiz');
-
-    btnQuizMode.addEventListener('click', () => {
-      const quizFeedback = document.getElementById('quizFeedback');
-      quizFeedback.classList.add('hidden');
-      quizModal.classList.remove('hidden');
-    });
-
-    btnCloseQuiz.addEventListener('click', () => quizModal.classList.add('hidden'));
-
-    window.handleQuizAnswer = function(option) {
-      const feedback = document.getElementById('quizFeedback');
-      feedback.classList.remove('hidden');
-
-      if (option === 'correct') {
-        feedback.className = "p-3 rounded-lg text-xs font-bold text-center bg-emerald-100 text-emerald-800 border border-emerald-300";
-        feedback.innerHTML = "🎉 ¡Correcto! Se realizan ambos cambios: Saldo a S/ 4,000 y Cuota no BCP a S/ 77.70.";
-        setTimeout(() => {
-          quizModal.classList.add('hidden');
-          currentStep = 4;
-          updateStepView();
-        }, 1800);
-      } else {
-        feedback.className = "p-3 rounded-lg text-xs font-bold text-center bg-red-100 text-red-700 border border-red-300";
-        feedback.innerHTML = "❌ Recuerda que son DOS reemplazos indispensables: Saldo (45,972 ➔ 4,000) y Cuota (893 ➔ 77.70).";
-      }
-    };
-
-    // Full screen toggle
-    const btnFullScreen = document.getElementById('btnFullScreen');
-    btnFullScreen.addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {
-          showToast("Pantalla completa no disponible en este entorno");
+      function initDeudasTable() {
+        const tbody = document.getElementById("tblDeudasBody");
+        tbody.innerHTML = "";
+        TIPOS_DEUDA.forEach(d => {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-blue-50/40 border-b border-slate-100 transition-colors";
+          tr.innerHTML = `
+            <td class="p-2 border-r border-slate-100 font-medium text-slate-700">${d.label}</td>
+            <td class="p-1 border-r border-slate-100"><input type="number" id="inp_E${d.id}" placeholder="" step="0.01" class="w-full text-center p-1 border border-slate-200 rounded focus:ring-1 focus:ring-[#002A8F] font-mono text-xs input-cell"></td>
+            <td class="p-1 border-r border-slate-100"><input type="number" id="inp_G${d.id}" placeholder="" step="0.01" class="w-full text-center p-1 border border-slate-200 rounded focus:ring-1 focus:ring-[#002A8F] font-mono text-xs input-cell"></td>
+            <td class="p-1 border-r border-slate-100"><input type="number" id="inp_I${d.id}" placeholder="" step="0.01" class="w-full text-center p-1 border border-slate-200 rounded focus:ring-1 focus:ring-[#002A8F] font-mono text-xs input-cell"></td>
+            <td class="p-1 border-r border-slate-100"><input type="number" id="inp_K${d.id}" placeholder="" step="0.01" class="w-full text-center p-1 border border-slate-200 rounded focus:ring-1 focus:ring-[#002A8F] font-mono text-xs input-cell"></td>
+            <td class="p-2 text-right font-black text-[#002A8F]" id="lbl_L${d.id}">S/ 0.00</td>
+          `;
+          tbody.appendChild(tr);
         });
-      } else {
-        if (document.exitFullscreen) document.exitFullscreen();
       }
-    });
 
-    // Initialize display
-    updateStepView();
+      function vincularEventos() {
+        const allInputs = document.querySelectorAll("input, select");
+        allInputs.forEach(el => {
+          el.addEventListener("input", recalcular);
+          el.addEventListener("change", recalcular);
+        });
+      }
+
+      function getNum(id) {
+        const el = document.getElementById(id);
+        return el ? (parseFloat(el.value) || 0) : 0;
+      }
+
+      function getValOrNull(id) {
+        const el = document.getElementById(id);
+        if (!el || el.value.trim() === "") return null;
+        return parseFloat(el.value);
+      }
+
+      function addMonths(date, months) {
+        const d = new Date(date);
+        const targetMonth = d.getMonth() + months;
+        d.setMonth(targetMonth);
+        return d;
+      }
+
+      function diffDays(d1, d2) {
+        const utc1 = Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate());
+        const utc2 = Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate());
+        return Math.round((utc1 - utc2) / (1000 * 60 * 60 * 24));
+      }
+
+      function generarCronogramaCompleto(monto, plazo, tea, desgravamenMensual, fechaDesembStr) {
+        if (!monto || monto <= 0 || !plazo || plazo <= 0) return { cuota: 0, fPrimerVenc: new Date(), pgOficial: 0, filas: [] };
+
+        const fParts = fechaDesembStr.split("-");
+        const fDesemb = new Date(parseInt(fParts[0]), parseInt(fParts[1]) - 1, parseInt(fParts[2]));
+
+        const diaVenc = 15;
+        const pf = 2; // Cáratula!E103
+        
+        // Base!K2: PG oficial para ESSALUD (0 a 1)
+        const pgOficial = fDesemb.getDate() <= diaVenc ? 1 : 0;
+        
+        // Factor técnico de cálculo en Cáratula!E101: =IF(DAY(K72)<=E102, 2, 1)
+        const factorTecnicoE101 = fDesemb.getDate() <= diaVenc ? 2 : 1;
+
+        const fBaseVenc = addMonths(fDesemb, pf);
+        const fPrimerVenc = new Date(fBaseVenc.getFullYear(), fBaseVenc.getMonth(), diaVenc);
+
+        const tna365 = (Math.pow(1 + tea, 1 / 12) - 1) * 12 * (365 / 360);
+        const r74 = desgravamenMensual * 12;
+        const o75 = tna365 / 365;
+        const r75 = r74 / 365;
+        const o76 = o75 * 31;
+        const r76 = r75 * 31;
+        const o96 = (o76 + r76) / (1 - Math.pow(1 + o76 + r76, -plazo));
+
+        const c23 = fPrimerVenc;
+        const c22 = addMonths(c23, -1);
+        const c21 = addMonths(c22, -1);
+
+        let c20 = null;
+        if (fDesemb.getDate() < diaVenc && factorTecnicoE101 === 2) {
+          c20 = addMonths(c21, -1);
+        }
+
+        let cuota = 0;
+        let saldoCapInicial = 0;
+        let capitalG23 = 0; // CORRECCIÓN DEFINITIVA PARA LA BASE DEL CRONOGRAMA
+
+        if (c20 === null) {
+          const d21 = diffDays(c21, fDesemb);
+          const e21 = d21;
+          const f21 = monto;
+          const g21 = f21;
+          const h21 = o75 * e21;
+          const i21 = h21 * f21;
+          const j21 = f21 * e21 * r75;
+
+          const e22 = diffDays(c22, c21);
+          const f22 = g21;
+          const h22 = o75 * e22;
+          const i22 = h22 * f22;
+          const j22 = r75 * e22 * g21;
+          const g22 = g21 + i22 + j22;
+
+          const f23 = g22;
+          cuota = (f23 + j21 + j22) * o96;
+          saldoCapInicial = f23;
+          capitalG23 = f23; // SE ALMACENA CAPITALIZACIÓN PREVIA A CUOTA 1
+        } else {
+          const d20 = diffDays(c20, fDesemb);
+          const f20 = factorTecnicoE101 === 2 ? monto : 0;
+          const g20 = f20;
+          const h20 = o75 * d20;
+          const i20 = h20 * f20;
+          const j20 = g20 * r75 * d20;
+
+          const e21 = diffDays(c21, c20);
+          const f21 = g20;
+          const g21 = g20;
+          const h21 = o75 * e21;
+          const i21 = h21 * f21;
+          const j21 = r75 * e21 * g20;
+
+          const e22 = diffDays(c22, c21);
+          const g22 = g21 + i21 + j21;
+          const f22 = g22; // CORRECCIÓN 1: F22 TOMA EL CAPITAL ACTUALIZADO
+          const h22 = o75 * e22;
+          const i22 = h22 * f22;
+          const j22 = r75 * e22 * g22;
+
+          const g23 = g22 + i22 + j22;
+          cuota = (g23 + j20 + j21 + j22) * o96;
+          saldoCapInicial = g22;
+          capitalG23 = g23; // CORRECCIÓN 2: SE ALMACENA CAPITALIZACIÓN PREVIA A CUOTA 1 (EXCEL G23)
+        }
+
+        // Generar filas del cronograma
+        const filas = [];
+        let saldoCap = saldoCapInicial;
+        let fechaAnt = c22;
+
+        for (let k = 1; k <= plazo; k++) {
+          const fechaCuota = addMonths(c23, k - 1);
+          const diasCuota = diffDays(fechaCuota, fechaAnt);
+          
+          let interes = 0;
+          let desg = 0;
+          let amort = 0;
+          let saldoFin = 0;
+
+          if (k === 1) {
+            const h23 = o75 * diasCuota;
+            if (c20 === null) {
+              const d21 = diffDays(c21, fDesemb);
+              const i21 = (o75 * d21) * monto;
+              interes = (h23 * saldoCap) + i21;
+            } else {
+              const d20 = diffDays(c20, fDesemb);
+              const i20 = (o75 * d20) * monto;
+              interes = (h23 * saldoCap) + i20;
+            }
+            desg = r75 * diasCuota * (c20 === null ? saldoCap : (saldoCap + (o75 * diffDays(c22, c21) * saldoCap) + (r75 * diffDays(c22, c21) * saldoCap)));
+            amort = cuota - interes - desg;
+            
+            // CORRECCIÓN 3: LA AMORTIZACIÓN RESTA DEL CAPITAL GLOBAL G23 (COMO EL EXCEL OFICIAL BCP)
+            saldoFin = capitalG23 - amort;
+            
+          } else {
+            const factorH = o75 * diasCuota;
+            interes = factorH * saldoCap;
+            desg = r75 * diasCuota * saldoCap;
+            amort = cuota - interes - desg;
+            saldoFin = saldoCap - amort;
+          }
+
+          filas.push({
+            num: k,
+            fecha: `${String(fechaCuota.getDate()).padStart(2, '0')}/${String(fechaCuota.getMonth()+1).padStart(2, '0')}/${fechaCuota.getFullYear()}`,
+            dias: diasCuota,
+            saldoInicial: k === 1 ? saldoCap : saldoCap, // Mostramos en tabla el saldo inicial del periodo o base
+            interes: interes,
+            desgravamen: desg,
+            amortizacion: amort,
+            cuota: cuota,
+            saldoFinal: Math.max(0, saldoFin)
+          });
+
+          saldoCap = saldoFin;
+          fechaAnt = fechaCuota;
+        }
+
+        return { cuota, fPrimerVenc, pgOficial, filas };
+      }
+
+      function recalcular() {
+        const k14 = getNum("inpTotalIngresos");
+        const k16 = getNum("inpIngresoNetoBoleta");
+        const k17 = getNum("inpCompraDeudaBoleta");
+
+        // Casilleros de Ingresos
+        const d20 = getNum("inp_D20");
+        const d21 = getNum("inp_D21");
+        const d22 = getNum("inp_D22");
+        const d23 = getNum("inp_D23");
+        const d24 = getNum("inp_D24");
+        const d25 = getNum("inp_D25");
+
+        const g20 = getNum("inp_G20");
+        const g21 = getNum("inp_G21");
+        const g22 = getNum("inp_G22");
+        const g23 = getNum("inp_G23");
+        const g24 = getNum("inp_G24");
+
+        const k20 = getNum("inp_K20");
+        const k21 = getNum("inp_K21");
+        const k22 = getNum("inp_K22");
+        const k23 = getNum("inp_K23");
+        const k24 = getNum("inp_K24");
+        const k25 = getNum("inp_K25");
+
+        // Descuentos de Ley
+        const k29 = getNum("inp_K29");
+        const k30 = getNum("inp_K30");
+
+        // Descuentos Sindicales
+        const d34 = getNum("inp_D34");
+        const d35 = getNum("inp_D35");
+        const d36 = getNum("inp_D36");
+        const g34 = getNum("inp_G34");
+        const g35 = getNum("inp_G35");
+        const g36 = getNum("inp_G36");
+        const k34 = getNum("inp_K34");
+        const k35 = getNum("inp_K35");
+        const k36 = getNum("inp_K36");
+
+        // Descuentos de Terceros
+        const d40 = getNum("inp_D40");
+        const d41 = getNum("inp_D41");
+        const d42 = getNum("inp_D42");
+        const d43 = getNum("inp_D43");
+        const d44 = getNum("inp_D44");
+        const d45 = getNum("inp_D45");
+
+        const g40 = getNum("inp_G40");
+        const g41 = getNum("inp_G41");
+        const g42 = getNum("inp_G42");
+        const g43 = getNum("inp_G43");
+        const g44 = getNum("inp_G44");
+
+        const k40 = getNum("inp_K40");
+        const k41 = getNum("inp_K41");
+        const k42 = getNum("inp_K42");
+        const k43 = getNum("inp_K43");
+        const k44 = getNum("inp_K44");
+
+        // G59 (Diversos en Cáratula!K65)
+        const g59 = getNum("inp_G59");
+
+        // Fórmula exacta K63: Total Ingreso Neto
+        const k63 = k14 - d20 - d21 - d22 - d23 - d24 - d25 
+                    - (g20 * 0.5) - (g23 * 0.5) - (g24 * 0.5) 
+                    - k20 - k21 - k22 - k23 - k24 - k25 
+                    - (g21 * 0.5) - (g22 * 0.5) 
+                    - k29 - k30 
+                    - d34 - d35 - d36 - k36 - g34 - g35 - g36 - k34 - k35;
+
+        // Fórmula exacta K65: Primer cálculo de Ingreso Neto Disponible (RCI = 0.40)
+        const sumaTerceros = d40 + d41 + d42 + d43 + d44 + d45 + g40 + g41 + g42 + g43 + g44 + k40 + k41 + k42 + k43 + k44 + g59;
+        const k65 = (k63 * 0.40) - sumaTerceros;
+
+        document.getElementById("lblTotalIngresoNeto").textContent = "S/ " + k63.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById("lblPrimerNetoDisp").textContent = "S/ " + Math.max(0, k65).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById("resNetoDisp").textContent = "S/ " + Math.max(0, k65).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        // Carga Crediticia SBS / BCP
+        const segmento = document.getElementById("selSegmento").value || "E";
+        const factSeg = FACTORES_SEGMENTO[segmento] || FACTORES_SEGMENTO["E"];
+
+        let sumaCuotasActualizadasL = 0;
+        let sumaCuotasBCP = 0;
+        let sumaCuotasNoBCP = 0;
+
+        TIPOS_DEUDA.forEach(d => {
+          const e_val = getValOrNull(`inp_E${d.id}`);
+          const g_val = getValOrNull(`inp_G${d.id}`);
+          const i_val = getValOrNull(`inp_I${d.id}`);
+          const k_val = getValOrNull(`inp_K${d.id}`);
+
+          if (e_val !== null) sumaCuotasBCP += e_val;
+          if (g_val !== null) sumaCuotasNoBCP += g_val;
+
+          let factorR = d.fixedFactor;
+          if (d.id === "84") factorR = factSeg.hip;
+          else if (d.id === "85") factorR = factSeg.cef;
+          else if (d.id === "86") factorR = factSeg.veh;
+          else if (d.id === "90") factorR = factSeg.tc;
+          else if (d.id === "91") factorR = factSeg.lnu;
+
+          let l_val = 0;
+          if (g_val !== null && i_val !== null && k_val !== null && i_val > 0) {
+            if (d.id === "91") {
+              l_val = k_val * 0.0065833922;
+            } else {
+              l_val = (k_val / i_val) * g_val;
+            }
+          } else {
+            if (g_val === null) {
+              l_val = (k_val || 0) * factorR;
+            } else {
+              l_val = g_val;
+            }
+          }
+
+          sumaCuotasActualizadasL += l_val;
+          document.getElementById(`lbl_L${d.id}`).textContent = l_val > 0 ? "S/ " + l_val.toFixed(2) : "S/ 0.00";
+        });
+
+        const k84 = getNum("inp_K84");
+        const k85 = getNum("inp_K85");
+        const k86 = getNum("inp_K86");
+        const k87 = getNum("inp_K87");
+        const k88 = getNum("inp_K88");
+        const k89 = getNum("inp_K89");
+        const k90 = getNum("inp_K90");
+        const k91 = getNum("inp_K91");
+
+        const sumaFactoresK = (k84 / 100) + (k85 * 0.035) + (k86 * 0.022) + (k89 * 0.0006944) + (k90 * 0.078) + (k91 * 0.003306);
+        const numeradorEndeudamiento = sumaFactoresK + sumaCuotasNoBCP + sumaCuotasBCP;
+
+        let porcEndeudamiento = 0;
+        if (k16 > 0) {
+          porcEndeudamiento = numeradorEndeudamiento / k16;
+        }
+
+        const cemBase = (k16 + k17 - (0.15 * g24) - (d21 * 0.15) - d23 - k21) * 0.70;
+        const deduccionesSaldosK = (k84 / 100) + (k85 * 0.035) + (k86 * 0.022) + (k87 * 0.046) + (k88 * 0.028) + (k89 * 0.0006944) + (k90 * 0.078) + (k91 * 0.003306);
+        const cem = cemBase - sumaCuotasBCP - sumaCuotasNoBCP - deduccionesSaldosK;
+
+        const dictamenSBS = (porcEndeudamiento <= 0.70) ? "Continuar" : "Sobre endeudado";
+
+        document.getElementById("lblPorcEndeudamiento").textContent = (porcEndeudamiento * 100).toFixed(2) + "%";
+        document.getElementById("resEndeudamiento").textContent = (porcEndeudamiento * 100).toFixed(2) + "%";
+        document.getElementById("lblCEM").textContent = "S/ " + Math.max(0, cem).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById("lblDictamenSBS").textContent = dictamenSBS;
+        document.getElementById("lblDictamenSBS").className = dictamenSBS === "Continuar" ? "font-black text-emerald-600 text-sm" : "font-black text-red-600 text-sm";
+
+        // Parámetros de Préstamo y Cronograma
+        const monto = getNum("inpMonto");
+        const plazo = parseInt(document.getElementById("selPlazo").value) || 72;
+        const tea = (getNum("inpTEA") || 9.80) / 100;
+        const tipoDesg = document.getElementById("selDesgravamen").value;
+        const desgravamen = DESGRAVAMEN_MAP[tipoDesg] !== undefined ? DESGRAVAMEN_MAP[tipoDesg] : 0.000767;
+        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-12";
+
+        const resCrono = generarCronogramaCompleto(monto, plazo, tea, desgravamen, fechaDesembStr);
+        const cuota = resCrono.cuota;
+        cronogramaFilasGeneradas = resCrono.filas;
+
+        // Mostrar PG oficial de ESSALUD (0 a 1)
+        document.getElementById("lblPG").textContent = resCrono.pgOficial;
+        document.getElementById("resCuota").textContent = "S/ " + cuota.toFixed(2);
+        
+        const fVenc = resCrono.fPrimerVenc;
+        document.getElementById("lblPrimerVenc").textContent = `${String(fVenc.getDate()).padStart(2, '0')}/${String(fVenc.getMonth()+1).padStart(2, '0')}/${fVenc.getFullYear()}`;
+
+        evaluarDictamen(dictamenSBS, cuota, k65, cem);
+        actualizarMensajeCamarguito(dictamenSBS, cuota, k65, cem);
+      }
+
+      function evaluarDictamen(dictamenSBS, cuota, netoDisp, cem) {
+        const card = document.getElementById("cardResultado");
+        const txt = document.getElementById("txtResultado");
+        const sub = document.getElementById("subResultado");
+        const det = document.getElementById("detResultado");
+
+        if (dictamenSBS === "Sobre endeudado") {
+          card.className = "p-4 rounded-2xl shadow-md border badge-sobreendeudado flex flex-col sm:flex-row justify-between items-center gap-4 transition-all duration-300";
+          txt.textContent = "NO CALIFICA";
+          sub.textContent = "DICTAMEN: SOBRE ENDEUDADO";
+          det.textContent = "El servidor supera el 70% de endeudamiento permitido en el sistema SBS con respecto a su boleta.";
+        } else if (cuota > netoDisp) {
+          card.className = "p-4 rounded-2xl shadow-md border badge-liquidez flex flex-col sm:flex-row justify-between items-center gap-4 transition-all duration-300";
+          txt.textContent = "NO CALIFICA";
+          sub.textContent = "DICTAMEN: FALTA DE LIQUIDEZ";
+          det.textContent = `La cuota mensual (S/ ${cuota.toFixed(2)}) supera el neto disponible en boleta (S/ ${netoDisp.toFixed(2)}).`;
+        } else if (cuota > cem) {
+          card.className = "p-4 rounded-2xl shadow-md border badge-liquidez flex flex-col sm:flex-row justify-between items-center gap-4 transition-all duration-300";
+          txt.textContent = "OBSERVADO";
+          sub.textContent = "DICTAMEN: SUPERA CEM";
+          det.textContent = "La cuota solicitada supera la capacidad de endeudamiento máxima permisible en el sistema.";
+        } else {
+          card.className = "p-4 rounded-2xl shadow-md border badge-califica flex flex-col sm:flex-row justify-between items-center gap-4 transition-all duration-300 glow-califica";
+          txt.textContent = "CALIFICA";
+          sub.textContent = "DICTAMEN CONVENIO ESSALUD: APROBADO";
+          det.textContent = "El servidor cuenta con margen disponible en boleta y adecuada capacidad crediticia.";
+        }
+      }
+
+      function actualizarMensajeCamarguito(dictamenSBS, cuota, netoDisp, cem) {
+        const textElem = document.getElementById("camarguitoText");
+        if (!textElem) return;
+
+        if (dictamenSBS === "Sobre endeudado") {
+          textElem.innerHTML = "⚠️ <strong>Alerta SBS:</strong> El endeudamiento supera el 70%. Se recomienda evaluar una <strong>Compra de Deuda</strong>.";
+        } else if (cuota > netoDisp) {
+          const dif = (cuota - netoDisp).toFixed(2);
+          textElem.innerHTML = `📉 <strong>Falta liquidez en boleta:</strong> Excede por <strong>S/ ${dif}</strong>. Prueba subiendo a 72 meses o reduciendo el monto.`;
+        } else if (cuota > cem) {
+          textElem.innerHTML = "⚠️ <strong>Observado:</strong> La cuota mensual sobrepasa el límite CEM permitido.";
+        } else {
+          textElem.innerHTML = `🎉 <strong>¡Excelente calificación!</strong> Cuota de <strong>S/ ${cuota.toFixed(2)}</strong> cubierta por el neto disponible (S/ ${netoDisp.toFixed(2)}).`;
+        }
+
+        const bubble = document.getElementById("camarguitoBubble");
+        if (camarguitoGloboCerrado) {
+          bubble.classList.add("hidden");
+        }
+      }
+
+      // ================= FUNCIONES DEL MODAL DE CRONOGRAMA =================
+      window.abrirModalCronograma = function() {
+        renderizarTablaCronograma();
+        document.getElementById("modalCronograma").classList.remove("hidden");
+      };
+
+      window.cerrarModalCronograma = function() {
+        document.getElementById("modalCronograma").classList.add("hidden");
+      };
+
+      window.cerrarModalCronogramaFondo = function(e) {
+        if (e.target.id === "modalCronograma") {
+          cerrarModalCronograma();
+        }
+      };
+
+      function renderizarTablaCronograma() {
+        const tbody = document.getElementById("tblCronogramaBody");
+        tbody.innerHTML = "";
+
+        const monto = getNum("inpMonto");
+        const plazo = parseInt(document.getElementById("selPlazo").value) || 72;
+        const cuota = cronogramaFilasGeneradas.length > 0 ? cronogramaFilasGeneradas[0].cuota : 0;
+
+        document.getElementById("lblCronoMonto").textContent = "S/ " + monto.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById("lblCronoPlazo").textContent = `${plazo} meses`;
+        document.getElementById("lblCronoCuotaFija").textContent = "S/ " + cuota.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        let totalInteres = 0;
+        let totalDesg = 0;
+
+        cronogramaFilasGeneradas.forEach(f => {
+          totalInteres += f.interes;
+          totalDesg += f.desgravamen;
+
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-blue-50/40 dark:hover:bg-slate-700/50 transition-colors";
+          tr.innerHTML = `
+            <td class="p-2 text-center font-bold text-slate-600">${f.num}</td>
+            <td class="p-2 text-center text-slate-800 font-medium">${f.fecha}</td>
+            <td class="p-2 text-center text-slate-500">${f.dias}</td>
+            <td class="p-2 text-right text-slate-700">S/ ${f.saldoInicial.toFixed(2)}</td>
+            <td class="p-2 text-right text-red-600 font-medium">S/ ${f.interes.toFixed(2)}</td>
+            <td class="p-2 text-right text-amber-700 font-medium">S/ ${f.desgravamen.toFixed(2)}</td>
+            <td class="p-2 text-right text-emerald-700 font-bold">S/ ${f.amortizacion.toFixed(2)}</td>
+            <td class="p-2 text-right font-black text-[#002A8F]">S/ ${f.cuota.toFixed(2)}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById("lblCronoTotalInteres").textContent = "S/ " + totalInteres.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById("lblCronoTotalDesg").textContent = "S/ " + totalDesg.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+
+      window.cerrarCamarguitoGlobo = function(e) {
+        if (e) e.stopPropagation();
+        camarguitoGloboCerrado = true;
+        document.getElementById("camarguitoBubble").classList.add("hidden");
+      };
+
+      window.clickAvatarCamarguito = function(e) {
+        if (e) e.stopPropagation();
+        const bubble = document.getElementById("camarguitoBubble");
+        if (bubble.classList.contains("hidden")) {
+          camarguitoGloboCerrado = false;
+          bubble.classList.remove("hidden");
+        } else {
+          toggleCamarguitoHelp();
+        }
+      };
+
+      window.abrirCamarguitoManual = function() {
+        camarguitoGloboCerrado = false;
+        document.getElementById("camarguitoBubble").classList.remove("hidden");
+        toggleCamarguitoHelp();
+      };
+
+      window.toggleCamarguitoHelp = function() {
+        const modal = document.getElementById("modalCamarguito");
+        modal.classList.toggle("hidden");
+      };
+
+      window.cerrarModalFondo = function(e) {
+        if (e.target.id === "modalCamarguito") {
+          document.getElementById("modalCamarguito").classList.add("hidden");
+        }
+      };
+
+    })();
   </script>
 </body>
 </html>
